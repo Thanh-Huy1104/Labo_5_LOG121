@@ -29,7 +29,7 @@
                     </image>
                 </ImageView>
                 <GridPane hgap="20" vgap="10" alignment="CENTER">
-                    <Button fx:id="buttomZoomIn" text="+" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <Button fx:id="buttomZoomIn" text="+" GridPane.rowIndex="0" GridPane.columnIndex="0" onAction="#handleZoomIn" />
                     <Button fx:id="buttomZoomOut" text="-" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
                 </GridPane>
                 <HBox spacing="10" alignment="CENTER">
