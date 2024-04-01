@@ -31,6 +31,7 @@
       <Button fx:id="redo_perspective1" layoutX="514.0" layoutY="718.0" mnemonicParsing="false" text="Redo" />
       <Button fx:id="undo_perspective2" layoutX="805.0" layoutY="718.0" mnemonicParsing="false" text="Undo" />
       <Button fx:id="redo_perspective2" layoutX="854.0" layoutY="718.0" mnemonicParsing="false" text="Redo" />
+       <Button fx:id="zoomIn" layoutX="10.0" layoutY="718.0" mnemonicParsing="false" text="Zoom In" onAction="#handleZoomIn" />
       <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="1022.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">

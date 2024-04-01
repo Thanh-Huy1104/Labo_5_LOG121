@@ -42,6 +42,7 @@ public class Controller implements Observer {
     @FXML
     private Button undo_perspective2;
 
+    @FXML
     private Button zoomIn;
 
     private Button zoomOut;

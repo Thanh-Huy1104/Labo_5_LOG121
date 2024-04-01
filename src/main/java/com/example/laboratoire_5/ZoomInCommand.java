@@ -8,6 +8,6 @@ public class ZoomInCommand implements Command {
     public void execute() {
         //augmente de 10% par click
         zoomfactor+=0.1;
-        model.modifyScaleCurrentPerspective(zoomfactor);
+        model.getCurrentPerspective(1).setScale(zoomfactor);
     }
 }
