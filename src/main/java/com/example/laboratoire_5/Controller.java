@@ -42,12 +42,21 @@ public class Controller implements Observer {
     @FXML
     private Button undo_perspective2;
 
+    private Button zoomIn;
+
+    private Button zoomOut;
+
     private ImageModel model;
 
     private CommandManager commandManager;
 
     private List<View> views;
 
+    @FXML
+    private void handleZoomIn(ActionEvent event) {
+        ZoomInCommand zoomInCommand = new ZoomInCommand();
+        zoomInCommand.execute();
+    }
     @FXML
     void savePerspective1(ActionEvent event) {
 
