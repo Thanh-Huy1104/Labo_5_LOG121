@@ -6,7 +6,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
+import java.io.File;
 import java.util.List;
 
 
@@ -105,10 +109,22 @@ public class Controller implements Observer {
     void savePerspective2(ActionEvent event) {
 
     }
-
     @FXML
     void upload_image(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
 
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Image files (*.png, *.jpg, *.gif)", "*.png", "*.jpg", "*.gif");
+        fileChooser.getExtensionFilters().add(extFilter);
+
+        Stage stage = (Stage) original_image.getScene().getWindow();
+        File file = fileChooser.showOpenDialog(stage);
+
+        if (file != null) {
+            Image image = new Image(file.toURI().toString());
+            original_image.setImage(image);
+            perspective_1.setImage(image);
+            perspective_2.setImage(image);
+        }
     }
 
     @Override
