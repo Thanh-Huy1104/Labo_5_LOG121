@@ -11,7 +11,7 @@ public class CareTaker {
     }
 
     public Perspective getLastPerspective() {
-        return historyPerspective.getLast();
+        return historyPerspective.get(historyPerspective.size() - 1);
     }
 
     public Perspective getPreviousPerspective() {
