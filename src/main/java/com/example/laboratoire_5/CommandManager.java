@@ -8,11 +8,15 @@ public class CommandManager {
     private CareTaker careTaker;
 
     public CommandManager getInstance() {
+        if (instance == null) {
+            instance = new CommandManager();
+        }
         return instance;
     }
 
     public void executeCommand(Command command) {
-        // TODO
+        command.execute();
+        commands.add(command);
     }
 
     public Perspective undoCommand() {

@@ -88,7 +88,9 @@ public class ImageModel implements Subject {
 
     // no need for indexes here coz we know which perspective scales and which translates
     public void modifyTranslationCurrentPerspective(float x, float y) {
-        // TODO
+        getCurrentPerspective(1).setTranslationY(y);
+        getCurrentPerspective(1).setTranslationX(x);
+        notifyObservers();
     }
 
     public Memento createMemento() {

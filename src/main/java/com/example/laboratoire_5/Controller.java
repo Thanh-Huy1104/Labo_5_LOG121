@@ -46,6 +46,14 @@ public class Controller implements Observer {
 
     private Button zoomOut;
 
+    private Button translationUp;
+
+    private Button translationDown;
+
+    private Button translationLeft;
+
+    private Button translationRight;
+
     private ImageModel model;
 
     private CommandManager commandManager;
@@ -56,6 +64,36 @@ public class Controller implements Observer {
     private void handleZoomIn(ActionEvent event) {
         ZoomInCommand zoomInCommand = new ZoomInCommand();
         zoomInCommand.execute();
+    }
+    @FXML
+    private void handleTranslationUp(ActionEvent event) {
+        TranslationUpCommand translationCommand = new TranslationUpCommand();
+        translationCommand.execute();
+    }
+
+    @FXML
+    private void handleTranslationDown(ActionEvent event) {
+        TranslationDownCommand translationCommand = new TranslationDownCommand();
+        translationCommand.execute();
+    }
+
+
+    @FXML
+    private void handleTranslationLeft(ActionEvent event) {
+        TranslationLeftCommand translationCommand = new TranslationLeftCommand();
+        translationCommand.execute();
+    }
+
+    @FXML
+    private void handleTranslationRight(ActionEvent event) {
+        TranslationRightCommand translationCommand = new TranslationRightCommand();
+        translationCommand.execute();
+    }
+
+    @FXML
+    private void handleZoomOut(ActionEvent event) {
+        ZoomOutCommand zoomOutCommand = new ZoomOutCommand();
+        zoomOutCommand.execute();
     }
     @FXML
     void savePerspective1(ActionEvent event) {

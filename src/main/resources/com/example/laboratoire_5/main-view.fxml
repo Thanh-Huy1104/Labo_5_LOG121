@@ -29,8 +29,12 @@
                     </image>
                 </ImageView>
                 <GridPane hgap="20" vgap="10" alignment="CENTER">
-                    <Button fx:id="buttomZoomIn" text="+" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                    <Button fx:id="buttomZoomOut" text="-" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                    <Button fx:id="buttomZoomIn"
+                            onAction="#handleZoomIn"
+                            text="+" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <Button fx:id="buttomZoomOut"
+                            onAction="#handleZoomOut"
+                            text="-" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
                 </GridPane>
                 <HBox spacing="10" alignment="CENTER">
                     <Button fx:id="undo_perspective1" mnemonicParsing="false" text="Undo"/>
@@ -46,10 +50,10 @@
                     </image>
                 </ImageView>
                 <GridPane hgap="10" vgap="10" alignment="CENTER">
-                    <Button fx:id="buttonUp" text="↑" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-                    <Button fx:id="buttonLeft" text="←" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                    <Button fx:id="buttonRight" text="→" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
-                    <Button fx:id="buttonDown" text="↓" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                    <Button fx:id="buttonUp" text="↑" GridPane.rowIndex="0" GridPane.columnIndex="1" onAction="#handleTranslationUp"/>
+                    <Button fx:id="buttonLeft" text="←" GridPane.rowIndex="1" GridPane.columnIndex="0" onAction="#handleTranslationLeft"/>
+                    <Button fx:id="buttonRight" text="→" GridPane.rowIndex="1" GridPane.columnIndex="2" onAction="#handleTranslationRight"/>
+                    <Button fx:id="buttonDown" text="↓" GridPane.rowIndex="2" GridPane.columnIndex="1" onAction="#handleTranslationDown"/>
                 </GridPane>
                 <HBox spacing="10" alignment="CENTER">
                     <Button fx:id="undo_perspective2" mnemonicParsing="false" text="Undo"/>
