@@ -81,8 +81,9 @@ public class ImageModel implements Subject {
         observers.remove(observer);
     }
 
+    //pas sure
     public void modifyScaleCurrentPerspective(float scale) {
-        // TODO
+        getCurrentPerspective(perspectiveList.size()-1).setScale(scale);
     }
 
     // no need for indexes here coz we know which perspective scales and which translates
