@@ -2,6 +2,7 @@ package com.example.laboratoire_5;
 
 import javafx.scene.image.ImageView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ImageModel implements Subject {
@@ -11,8 +12,13 @@ public class ImageModel implements Subject {
     private Perspective perspective1;
     private Perspective perspective2;
     private List<Observer> observers;
-    private CareTaker careTaker1;
-    private CareTaker careTaker2;
+
+    public ImageModel(Perspective perspective1, Perspective perspective2) {
+        this.perspective1 = perspective1;
+        this.perspective2 = perspective2;
+        this.perspectiveList = new ArrayList<>();
+        this.observers = new ArrayList<>();
+    }
 
     public Image getOriginalImage() {
         return this.originalImage;
@@ -88,7 +94,6 @@ public class ImageModel implements Subject {
         getCurrentPerspective(perspectiveList.size()-1).setScale(scale);
     }
 
-    // no need for indexes here coz we know which perspective scales and which translates
     public void modifyTranslationPerspective(int index, double[] data, double deltaX, double deltaY) {
         Perspective perspective = getPerspective(index);
         perspective.translate(data, deltaX, deltaY);

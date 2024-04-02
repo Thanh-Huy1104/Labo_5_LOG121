@@ -13,17 +13,17 @@ public class ImageSerializer {
         }
     }
 
-    public ImageModel deserialize(String filename) {
-        ImageModel imageModel = new ImageModel();
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename))) {
-            byte[] data = (byte[]) in.readObject();
-            Image image = new Image();
-            image.setData(data);
-            imageModel.setOriginalImage(image);
-            return imageModel;
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+//    public ImageModel deserialize(String filename) {
+//        ImageModel imageModel = new ImageModel();
+//        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename))) {
+//            byte[] data = (byte[]) in.readObject();
+//            Image image = new Image();
+//            image.setData(data);
+//            imageModel.setOriginalImage(image);
+//            return imageModel;
+//        } catch (IOException | ClassNotFoundException e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
 }

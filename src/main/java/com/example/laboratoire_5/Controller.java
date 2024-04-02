@@ -54,8 +54,25 @@ public class Controller implements Observer {
 
     private List<View> views;
 
+    public Controller() {}
+
     @FXML
     private void initialize() {
+        Perspective perspective1 = new Perspective(1, perspective_1);
+        Perspective perspective2 = new Perspective(2, perspective_2);
+        Perspective originalPerspective = new Perspective(-1, original_image);
+        this.model = new ImageModel(perspective1, perspective2);
+        model.addPerspective(perspective1);
+        model.addPerspective(perspective2);
+        model.attach(this);
+        PerspectiveView perspectiveView1 = new PerspectiveView(perspective1);
+        PerspectiveView perspectiveView2 = new PerspectiveView(perspective2);
+        OriginalView originalView = new OriginalView(originalPerspective);
+        this.commandManager = CommandManager.getInstance();
+        this.views = new ArrayList<>();
+        addView(perspectiveView1);
+        addView(perspectiveView2);
+        addView(originalView);
         setupZoomAndDrag(perspective_1);
         setupZoomAndDrag(perspective_2);
     }
@@ -82,12 +99,6 @@ public class Controller implements Observer {
             double deltaY = event.getSceneY();
             handleTranslate(imageView ,deltaX, deltaY);
         });
-
-    }
-
-    public Controller() {
-        this.commandManager = CommandManager.getInstance();
-        this.views = new ArrayList<>();
     }
 
     public void addView(View view) {
