@@ -94,13 +94,14 @@ public class ImageModel implements Subject {
     }
 
     public Memento createMemento() {
-        // TODO
+        Memento memento = new Memento();
+        memento.setPerspective(1, getCurrentPerspective(1));
+        memento.setPerspective(2, getCurrentPerspective(2));
 
-        return null;
+        return memento;
     }
 
-    public void setMemento(Memento m) {
-        // TODO
-        // do we need a memento attribute here?
+    public void setMemento(Memento m, int index) {
+        setCurrentPerspective(index, m.getPerspective(index));
     }
 }

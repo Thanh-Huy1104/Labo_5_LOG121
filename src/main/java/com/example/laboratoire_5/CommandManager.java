@@ -1,27 +1,36 @@
 package com.example.laboratoire_5;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CommandManager {
     private List<Command> commands;
-    private CommandManager instance;
+    private static CommandManager instance = new CommandManager();
     private CareTaker careTaker;
 
-    public CommandManager getInstance() {
-        if (instance == null) {
-            instance = new CommandManager();
-        }
-        return instance;
+    private CommandManager() {
+        commands = new ArrayList<>();
     }
 
+    public void addCommand(Command command) {
+        commands.add(command);
+    }
+
+    public void removeCommand(Command command) {
+        commands.remove(command);
+    }
+
+    public CommandManager getInstance() {
+        return instance; // instance can never be null;
+    }
+
+    // Why do we need a list of commands if this is how we execute commands?? Gotta check patron commande
     public void executeCommand(Command command) {
         command.execute();
         commands.add(command);
     }
 
-    public Perspective undoCommand() {
-        // TODO
-
-        return null;
+    public void undoCommand(int index) {
+        careTaker.getLastPerspective(index);
     }
 }
