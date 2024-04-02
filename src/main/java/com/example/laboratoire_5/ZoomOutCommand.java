@@ -5,7 +5,7 @@ public class ZoomOutCommand implements Command {
     private Perspective previousState; // might not be needed
 
     @Override
-    public void execute() {
+    public void execute(int index) {
         // TODO
     }
 }

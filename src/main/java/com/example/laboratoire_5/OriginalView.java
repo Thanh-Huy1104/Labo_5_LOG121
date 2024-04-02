@@ -14,4 +14,9 @@ public class OriginalView implements View {
     public void display(ImageView image) {
         // TODO
     }
+
+    @Override
+    public Perspective getPerspective() {
+        return null;
+    }
 }

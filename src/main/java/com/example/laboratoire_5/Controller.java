@@ -97,13 +97,11 @@ public class Controller implements Observer {
     @FXML
     private void handleZoomIn(ActionEvent event) {
         ZoomInCommand zoomInCommand = new ZoomInCommand();
-        zoomInCommand.execute();
     }
 
     @FXML
     private void handleZoomOut(ActionEvent event) {
         ZoomOutCommand zoomOutCommand = new ZoomOutCommand();
-        zoomOutCommand.execute();
     }
 
     private void handleTranslate(ImageView imageView, double deltaX, double deltaY) {

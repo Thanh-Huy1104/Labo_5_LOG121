@@ -5,7 +5,7 @@ public class ZoomInCommand implements Command {
     private Perspective previousState;
     float zoomfactor=1;
     @Override
-    public void execute() {
+    public void execute(int index) {
         //augmente de 10% par click
         zoomfactor+=0.1;
         model.getCurrentPerspective(1).setScale(zoomfactor);
