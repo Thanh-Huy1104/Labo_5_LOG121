@@ -20,13 +20,13 @@ public class CommandManager {
         commands.remove(command);
     }
 
-    public CommandManager getInstance() {
+    public static CommandManager getInstance() {
         return instance; // instance can never be null;
     }
 
     // Why do we need a list of commands if this is how we execute commands?? Gotta check patron commande
-    public void executeCommand(Command command) {
-        command.execute();
+    public void executeCommand(Command command, int index) {
+        command.execute(index);
         commands.add(command);
     }
 

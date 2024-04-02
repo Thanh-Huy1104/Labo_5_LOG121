@@ -1,5 +1,7 @@
 package com.example.laboratoire_5;
 
+import javafx.scene.image.ImageView;
+
 import java.util.List;
 
 public class ImageModel implements Subject {
@@ -82,14 +84,14 @@ public class ImageModel implements Subject {
     }
 
     //pas sure
-    public void modifyScaleCurrentPerspective(float scale) {
+    public void modifyScalePerspective(float scale, int index) {
         getCurrentPerspective(perspectiveList.size()-1).setScale(scale);
     }
 
     // no need for indexes here coz we know which perspective scales and which translates
-    public void modifyTranslationCurrentPerspective(float x, float y) {
-        getCurrentPerspective(1).setTranslationY(y);
-        getCurrentPerspective(1).setTranslationX(x);
+    public void modifyTranslationPerspective(int index) {
+        Perspective perspective = getPerspective(index);
+        perspective.translate();
         notifyObservers();
     }
 

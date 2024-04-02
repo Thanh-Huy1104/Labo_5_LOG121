@@ -3,14 +3,16 @@ package com.example.laboratoire_5;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -26,10 +28,10 @@ public class Controller implements Observer {
     private MenuItem menuitem_saveperspective2;
 
     @FXML
-    private ImageView original_image;
+    private ImageView perspective_1;
 
     @FXML
-    private ImageView perspective_1;
+    private ImageView original_image;
 
     @FXML
     private ImageView perspective_2;
@@ -46,19 +48,6 @@ public class Controller implements Observer {
     @FXML
     private Button undo_perspective2;
 
-    @FXML
-    private Button zoomIn;
-
-    private Button zoomOut;
-
-    private Button translationUp;
-
-    private Button translationDown;
-
-    private Button translationLeft;
-
-    private Button translationRight;
-
     private ImageModel model;
 
     private CommandManager commandManager;
@@ -66,33 +55,51 @@ public class Controller implements Observer {
     private List<View> views;
 
     @FXML
+    private void initialize() {
+        setupZoomAndDrag(perspective_1);
+        setupZoomAndDrag(perspective_2);
+    }
+
+    private void setupZoomAndDrag(ImageView imageView) {
+//        imageView.setOnScroll(event -> {
+//            double deltaY = event.getDeltaY();
+//            double scale = imageView.getScaleX();
+//            if (deltaY < 0) {
+//                scale -= 0.1;
+//            } else {
+//                scale += 0.1;
+//            }
+//            imageView.setScaleX(scale);
+//            imageView.setScaleY(scale);
+//        });
+
+        imageView.setOnMousePressed(event -> {
+            imageView.setUserData(new double[]{event.getSceneX(), event.getSceneY(), imageView.getTranslateX(), imageView.getTranslateY()});
+        });
+
+        imageView.setOnMouseDragged(event -> {
+            double deltaX = event.getSceneX() - data[0];
+            double deltaY = event.getSceneY() - data[1];
+            imageView.setTranslateX(data[2] + deltaX);
+            imageView.setTranslateY(data[3] + deltaY);
+            handleTranslate(imageView ,deltaX, deltaY);
+        });
+
+    }
+
+    public Controller() {
+        this.commandManager = CommandManager.getInstance();
+        this.views = new ArrayList<>();
+    }
+
+    public void addView(View view) {
+        this.views.add(view);
+    }
+
+    @FXML
     private void handleZoomIn(ActionEvent event) {
         ZoomInCommand zoomInCommand = new ZoomInCommand();
         zoomInCommand.execute();
-    }
-    @FXML
-    private void handleTranslationUp(ActionEvent event) {
-        TranslationUpCommand translationCommand = new TranslationUpCommand();
-        translationCommand.execute();
-    }
-
-    @FXML
-    private void handleTranslationDown(ActionEvent event) {
-        TranslationDownCommand translationCommand = new TranslationDownCommand();
-        translationCommand.execute();
-    }
-
-
-    @FXML
-    private void handleTranslationLeft(ActionEvent event) {
-        TranslationLeftCommand translationCommand = new TranslationLeftCommand();
-        translationCommand.execute();
-    }
-
-    @FXML
-    private void handleTranslationRight(ActionEvent event) {
-        TranslationRightCommand translationCommand = new TranslationRightCommand();
-        translationCommand.execute();
     }
 
     @FXML
@@ -100,6 +107,19 @@ public class Controller implements Observer {
         ZoomOutCommand zoomOutCommand = new ZoomOutCommand();
         zoomOutCommand.execute();
     }
+
+    private void handleTranslate(ImageView imageView, double deltaX, double deltaY) {
+        double[] data = (double[]) imageView.getUserData();
+        TranslationCommand translateCommand = new TranslationCommand(model, deltaX, deltaY, data);
+        for (View view : views) {
+            if (view instanceof PerspectiveView) {
+                if (view.getPerspective().getImageView().equals(imageView)) {
+                    commandManager.executeCommand(translateCommand, views.indexOf(view) + 1);
+                }
+            }
+        }
+    }
+
     @FXML
     void savePerspective1(ActionEvent event) {
 
@@ -109,6 +129,7 @@ public class Controller implements Observer {
     void savePerspective2(ActionEvent event) {
 
     }
+
     @FXML
     void upload_image(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
