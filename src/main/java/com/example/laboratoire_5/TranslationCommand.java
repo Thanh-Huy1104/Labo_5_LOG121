@@ -17,6 +17,6 @@ public class TranslationCommand implements Command {
 
     @Override
     public void execute(int index) {
-        model.modifyTranslationPerspective(index);
+        model.modifyTranslationPerspective(index, data, deltaX, deltaY);
     }
 }

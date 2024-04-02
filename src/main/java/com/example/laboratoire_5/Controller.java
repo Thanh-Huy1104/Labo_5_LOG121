@@ -61,27 +61,25 @@ public class Controller implements Observer {
     }
 
     private void setupZoomAndDrag(ImageView imageView) {
-//        imageView.setOnScroll(event -> {
-//            double deltaY = event.getDeltaY();
-//            double scale = imageView.getScaleX();
-//            if (deltaY < 0) {
-//                scale -= 0.1;
-//            } else {
-//                scale += 0.1;
-//            }
-//            imageView.setScaleX(scale);
-//            imageView.setScaleY(scale);
-//        });
+        imageView.setOnScroll(event -> {
+            double deltaY = event.getDeltaY();
+            double scale = imageView.getScaleX();
+            if (deltaY < 0) {
+                scale -= 0.1;
+            } else {
+                scale += 0.1;
+            }
+            imageView.setScaleX(scale);
+            imageView.setScaleY(scale);
+        });
 
         imageView.setOnMousePressed(event -> {
             imageView.setUserData(new double[]{event.getSceneX(), event.getSceneY(), imageView.getTranslateX(), imageView.getTranslateY()});
         });
 
         imageView.setOnMouseDragged(event -> {
-            double deltaX = event.getSceneX() - data[0];
-            double deltaY = event.getSceneY() - data[1];
-            imageView.setTranslateX(data[2] + deltaX);
-            imageView.setTranslateY(data[3] + deltaY);
+            double deltaX = event.getSceneX();
+            double deltaY = event.getSceneY();
             handleTranslate(imageView ,deltaX, deltaY);
         });
 

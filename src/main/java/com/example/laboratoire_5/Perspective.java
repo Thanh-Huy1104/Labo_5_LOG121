@@ -47,9 +47,10 @@ public class Perspective {
         return index;
     }
 
-    public void translate() {
-        translationX += deltaX;
-        translationY += deltaY;
-        applyTransformations();
+    public void translate(double[] data, double deltaX, double deltaY) {
+        double translateX = data[2] + deltaX - data[0];
+        double translateY = data[3] + deltaY - data[1];
+        imageView.setTranslateX(translateX);
+        imageView.setTranslateY(translateY);
     }
 }

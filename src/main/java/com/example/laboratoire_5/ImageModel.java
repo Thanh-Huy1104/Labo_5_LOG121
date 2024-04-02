@@ -89,9 +89,9 @@ public class ImageModel implements Subject {
     }
 
     // no need for indexes here coz we know which perspective scales and which translates
-    public void modifyTranslationPerspective(int index) {
+    public void modifyTranslationPerspective(int index, double[] data, double deltaX, double deltaY) {
         Perspective perspective = getPerspective(index);
-        perspective.translate();
+        perspective.translate(data, deltaX, deltaY);
         notifyObservers();
     }
 
