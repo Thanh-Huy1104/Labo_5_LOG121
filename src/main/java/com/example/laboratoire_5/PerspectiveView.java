@@ -19,7 +19,7 @@ public class PerspectiveView implements View {
     }
 
     @Override
-    public void display(ImageView image) {
-        // TODO
+    public void display(Perspective perspective) {
+        setPerspective(perspective);
     }
 }

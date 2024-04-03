@@ -4,21 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommandManager {
-    private List<Command> commands;
     private static CommandManager instance = new CommandManager();
     private CareTaker careTaker;
 
-    private CommandManager() {
-        commands = new ArrayList<>();
-    }
-
-    public void addCommand(Command command) {
-        commands.add(command);
-    }
-
-    public void removeCommand(Command command) {
-        commands.remove(command);
-    }
+    private CommandManager() {}
 
     public static CommandManager getInstance() {
         return instance; // instance can never be null;
@@ -26,8 +15,12 @@ public class CommandManager {
 
     // Why do we need a list of commands if this is how we execute commands?? Gotta check patron commande
     public void executeCommand(Command command, int index) {
+        careTaker.savePerspective(index);
         command.execute(index);
-        commands.add(command);
+    }
+
+    public void setCareTaker(CareTaker careTaker) {
+        this.careTaker = careTaker;
     }
 
     public void undoCommand(int index) {

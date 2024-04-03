@@ -40,8 +40,8 @@
                 </ImageView>
             </AnchorPane>
             <HBox spacing="10" alignment="CENTER">
-                <Button fx:id="undo_perspective1" mnemonicParsing="false" text="Undo"/>
-                <Button fx:id="redo_perspective1" mnemonicParsing="false" text="Redo"/>
+                <Button fx:id="undo_perspective1" mnemonicParsing="false" text="Undo" onAction="#undoPerspective1"/>
+                <Button fx:id="redo_perspective1" mnemonicParsing="false" text="Redo" onAction="#undoPerspective2"/>
             </HBox>
         </VBox>
 

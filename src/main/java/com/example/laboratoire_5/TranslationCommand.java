@@ -2,10 +2,8 @@ package com.example.laboratoire_5;
 
 public class TranslationCommand implements Command {
     private ImageModel model;
-    private Perspective previousState;
     private double deltaX;
     private double deltaY;
-
     private double[] data;
 
     public TranslationCommand(ImageModel model, double deltaX, double deltaY, double[] data) {

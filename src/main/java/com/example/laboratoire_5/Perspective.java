@@ -13,6 +13,13 @@ public class Perspective {
     public Perspective(int index, ImageView imageView) {
         this.index = index;
         this.imageView = imageView;
+        this.translationX = imageView.getTranslateX();
+        this.translationY = imageView.getTranslateY();
+    }
+
+    public Perspective(Perspective perspective) {
+        this.index = perspective.getIndex();
+        this.imageView = perspective.getImageView();
     }
 
     public ImageView getImageView() {
@@ -49,6 +56,12 @@ public class Perspective {
 
     public int getIndex() {
         return index;
+    }
+
+    public Perspective clone() {
+        Perspective perspective = new Perspective(this);
+
+        return  perspective;
     }
 
     public void translate(double[] data, double deltaX, double deltaY) {

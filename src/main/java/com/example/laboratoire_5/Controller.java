@@ -54,21 +54,26 @@ public class Controller implements Observer {
 
     private List<View> views;
 
+    private CareTaker careTaker;
+
     public Controller() {}
 
     @FXML
     private void initialize() {
         Perspective perspective1 = new Perspective(1, perspective_1);
         Perspective perspective2 = new Perspective(2, perspective_2);
-        Perspective originalPerspective = new Perspective(-1, original_image);
+        Perspective originalPerspective = new Perspective(3, original_image);
         this.model = new ImageModel(perspective1, perspective2);
         model.addPerspective(perspective1);
         model.addPerspective(perspective2);
+        model.addPerspective(originalPerspective);
         model.attach(this);
         PerspectiveView perspectiveView1 = new PerspectiveView(perspective1);
         PerspectiveView perspectiveView2 = new PerspectiveView(perspective2);
         OriginalView originalView = new OriginalView(originalPerspective);
         this.commandManager = CommandManager.getInstance();
+        careTaker = new CareTaker(model);
+        commandManager.setCareTaker(careTaker);
         this.views = new ArrayList<>();
         addView(perspectiveView1);
         addView(perspectiveView2);
@@ -78,20 +83,29 @@ public class Controller implements Observer {
     }
 
     private void setupZoomAndDrag(ImageView imageView) {
-        imageView.setOnScroll(event -> {
-            double deltaY = event.getDeltaY();
-            double scale = imageView.getScaleX();
-            if (deltaY < 0) {
-                scale -= 0.1;
-            } else {
-                scale += 0.1;
-            }
-            imageView.setScaleX(scale);
-            imageView.setScaleY(scale);
-        });
+//        imageView.setOnScroll(event -> {
+//            double deltaY = event.getDeltaY();
+//            double scale = imageView.getScaleX();
+//            if (deltaY < 0) {
+//                scale -= 0.1;
+//            } else {
+//                scale += 0.1;
+//            }
+//            imageView.setScaleX(scale);
+//            imageView.setScaleY(scale);
+//        });
 
-        imageView.setOnMousePressed(event -> {
+        imageView.setOnMousePressed(event -> { // save in memento here? For initial state of the imageView before any translation?
             imageView.setUserData(new double[]{event.getSceneX(), event.getSceneY(), imageView.getTranslateX(), imageView.getTranslateY()});
+            int index = 0;
+            for (View view : views) {
+                if (view instanceof PerspectiveView) {
+                    if (view.getPerspective().getImageView().equals(imageView)) {
+                        index = views.indexOf(view) + 1;
+                    }
+                }
+            }
+            careTaker.savePerspective(index);
         });
 
         imageView.setOnMouseDragged(event -> {
@@ -128,6 +142,16 @@ public class Controller implements Observer {
     }
 
     @FXML
+    void undoPerspective1() {
+        careTaker.getLastPerspective(1);
+    }
+
+    @FXML
+    void undoPerspective2() {
+        careTaker.getLastPerspective(2);
+    }
+
+    @FXML
     void savePerspective1(ActionEvent event) {
 
     }
@@ -156,7 +180,10 @@ public class Controller implements Observer {
     }
 
     @Override
-    public void update() {
-
+    public void update(Subject subject) {
+        ImageModel model = (ImageModel) subject;
+        for (int i = 1; i <= views.size(); i++) {
+            views.get(i - 1).display(model.getCurrentPerspective(i));
+        }
     }
 }

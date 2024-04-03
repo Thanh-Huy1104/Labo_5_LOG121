@@ -22,7 +22,7 @@ public class CareTaker {
         return null;
     }
 
-    public void savePerspective() {
-        this.memento = model.createMemento();
+    public void savePerspective(int index) {
+        this.memento = model.createMemento(index);
     }
 }

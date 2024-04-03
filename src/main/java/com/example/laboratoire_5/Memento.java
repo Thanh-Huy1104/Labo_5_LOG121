@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Queue;
 
 public class Memento {
-    // ecq on doit etre capable de undo a l'infini ou juste undo une operation a la fois?
     private Queue<Perspective> historyPerspective1;
     private Queue<Perspective> historyPerspective2;
 

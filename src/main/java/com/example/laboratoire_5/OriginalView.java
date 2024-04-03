@@ -11,9 +11,7 @@ public class OriginalView implements View {
         this.perspective = perspective;
     }
     @Override
-    public void display(ImageView image) {
-        // TODO
-    }
+    public void display(Perspective perspective) {} // pas besoin de faire de changement pour cette vue, car elle ne change jamais
 
     @Override
     public Perspective getPerspective() {

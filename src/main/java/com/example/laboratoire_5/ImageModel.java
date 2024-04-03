@@ -62,23 +62,14 @@ public class ImageModel implements Subject {
                 perspective = newP;
             }
         }
+
+        notifyObservers();
     }
 
     public void notifyObservers() {
         for (Observer observer : observers) {
-            observer.update();
+            observer.update(this);
         }
-    }
-
-    // Same function twice fix this
-    public Perspective getPerspective(int index) {
-        for (Perspective perspective : perspectiveList) {
-            if (perspective.getIndex() == index) {
-                return perspective;
-            }
-        }
-
-        return null;
     }
 
     public void attach(Observer observer) {
@@ -95,20 +86,27 @@ public class ImageModel implements Subject {
     }
 
     public void modifyTranslationPerspective(int index, double[] data, double deltaX, double deltaY) {
-        Perspective perspective = getPerspective(index);
-        perspective.translate(data, deltaX, deltaY);
+        Perspective perspective = getCurrentPerspective(index);
+        Perspective newPerspective = perspective.clone();
+        newPerspective.translate(data, deltaX, deltaY);
+        setCurrentPerspective(newPerspective.getIndex(), newPerspective);
         notifyObservers();
     }
 
-    public Memento createMemento() {
+    public Memento createMemento(int index) {
         Memento memento = new Memento();
-        memento.setPerspective(1, getCurrentPerspective(1));
-        memento.setPerspective(2, getCurrentPerspective(2));
+        Perspective currentPerspective = getCurrentPerspective(index);
+        currentPerspective.setTranslationX(currentPerspective.getImageView().getTranslateX());
+        currentPerspective.setTranslationY(currentPerspective.getImageView().getTranslateY());
+        memento.setPerspective(index, currentPerspective);
 
         return memento;
     }
 
     public void setMemento(Memento m, int index) {
-        setCurrentPerspective(index, m.getPerspective(index));
+        Perspective newPerspective = m.getPerspective(index);
+        newPerspective.getImageView().setTranslateX(newPerspective.getTranslationX());
+        newPerspective.getImageView().setTranslateY(newPerspective.getTranslationY());
+        setCurrentPerspective(index, newPerspective);
     }
 }
