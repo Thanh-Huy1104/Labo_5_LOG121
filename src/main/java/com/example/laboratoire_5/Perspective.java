@@ -67,6 +67,10 @@ public class Perspective {
     public void translate(double[] data, double deltaX, double deltaY) {
         double translateX = data[2] + deltaX - data[0];
         double translateY = data[3] + deltaY - data[1];
+
+        translateX = Math.max(Math.min(translateX, 603 - imageView.getFitWidth()), 0);
+        translateY = Math.max(Math.min(translateY, 497 - imageView.getFitHeight()), 0);
+
         imageView.setTranslateX(translateX);
         imageView.setTranslateY(translateY);
     }
