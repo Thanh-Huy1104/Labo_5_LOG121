@@ -8,6 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.Button?>
 <AnchorPane prefHeight="774.0" prefWidth="1022.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.laboratoire_5.Controller">
     <children>
         <MenuBar prefHeight="25.0" prefWidth="1022.0">
@@ -26,6 +27,7 @@
                     <Image url="@shrec.jpg"/>
                 </image>
             </ImageView>
+
         </HBox>
 
         <!-- Container for Perspective 1 with clipping and containment -->
@@ -37,6 +39,10 @@
                     </image>
                 </ImageView>
             </AnchorPane>
+            <HBox spacing="10" alignment="CENTER">
+                <Button fx:id="undo_perspective1" mnemonicParsing="false" text="Undo"/>
+                <Button fx:id="redo_perspective1" mnemonicParsing="false" text="Redo"/>
+            </HBox>
         </VBox>
 
         <!-- Container for Perspective 2 with clipping and containment -->
@@ -48,6 +54,10 @@
                     </image>
                 </ImageView>
             </AnchorPane>
+            <HBox spacing="10" alignment="CENTER">
+                <Button fx:id="undo_perspective2" mnemonicParsing="false" text="Undo"/>
+                <Button fx:id="redo_perspective2" mnemonicParsing="false" text="Redo"/>
+            </HBox>
         </VBox>
     </children>
 </AnchorPane>
