@@ -56,33 +56,9 @@ public class Controller implements Observer {
 
     @FXML
     private void initialize() {
-        setupZoomAndDrag(perspective_1);
-        setupZoomAndDrag(perspective_2);
-    }
 
-    private void setupZoomAndDrag(ImageView imageView) {
-        imageView.setOnScroll(event -> {
-            double deltaY = event.getDeltaY();
-            double scale = imageView.getScaleX();
-            if (deltaY < 0) {
-                scale -= 0.1;
-            } else {
-                scale += 0.1;
-            }
-            imageView.setScaleX(scale);
-            imageView.setScaleY(scale);
-        });
-
-        imageView.setOnMousePressed(event -> {
-            imageView.setUserData(new double[]{event.getSceneX(), event.getSceneY(), imageView.getTranslateX(), imageView.getTranslateY()});
-        });
-
-        imageView.setOnMouseDragged(event -> {
-            double deltaX = event.getSceneX();
-            double deltaY = event.getSceneY();
-            handleTranslate(imageView ,deltaX, deltaY);
-        });
-
+        model = new ImageModel();
+        model.attach(this);
     }
 
     public Controller() {
@@ -94,16 +70,26 @@ public class Controller implements Observer {
         this.views.add(view);
     }
 
+
     @FXML
-    private void handleZoomIn(ActionEvent event) {
-        ZoomInCommand zoomInCommand = new ZoomInCommand();
-        zoomInCommand.execute();
+    void handleZoomPerspective1(ScrollEvent event) {
+        double deltaY = event.getDeltaY();
+        double zoomFactor = 0.1; // Facteur de zoom
+        int index = 0;
+        boolean zoomIn = deltaY < 0; // Si deltaY est négatif, c'est un zoom arrière, sinon c'est un zoom avant
+        ZoomCommand zoomCommand = new ZoomCommand(model, index, zoomFactor, zoomIn);
+        commandManager.executeCommand(zoomCommand, index);
+
     }
 
     @FXML
-    private void handleZoomOut(ActionEvent event) {
-        ZoomOutCommand zoomOutCommand = new ZoomOutCommand();
-        zoomOutCommand.execute();
+    void handleZoomPerspective2(ScrollEvent event) {
+        double deltaY = event.getDeltaY();
+        double zoomFactor = 0.1; // Facteur de zoom
+        int index = 1;
+        boolean zoomIn = deltaY < 0; // Si deltaY est négatif, c'est un zoom arrière, sinon c'est un zoom avant
+        ZoomCommand zoomCommand = new ZoomCommand(model, index, zoomFactor, zoomIn);
+        commandManager.executeCommand(zoomCommand, index);
     }
 
     private void handleTranslate(ImageView imageView, double deltaX, double deltaY) {
@@ -148,6 +134,19 @@ public class Controller implements Observer {
 
     @Override
     public void update() {
+        Perspective perspective1 = model.getCurrentPerspective(0); // Récupérer la perspective 1 du modèle
+        Perspective perspective2 = model.getCurrentPerspective(1); // Récupérer la perspective 1 du modèle
+        if (perspective1 != null) {
+            // Mettre à jour l'échelle de perspective_1 en fonction de l'échelle de la perspective récupérée
+            perspective_1.setScaleX(perspective1.getScale());
+            perspective_1.setScaleY(perspective1.getScale());
+        }
+
+        if (perspective2 != null) {
+            // Mettre à jour l'échelle de perspective_1 en fonction de l'échelle de la perspective récupérée
+            perspective_2.setScaleX(perspective2.getScale());
+            perspective_2.setScaleY(perspective2.getScale());
+        }
 
     }
 }
