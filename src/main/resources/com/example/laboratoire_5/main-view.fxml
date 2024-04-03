@@ -27,37 +27,38 @@
                     <Image url="@shrec.jpg"/>
                 </image>
             </ImageView>
-
         </HBox>
 
-        <!-- Container for Perspective 1 with clipping and containment -->
-        <VBox layoutX="146.0" layoutY="225.0" spacing="10" alignment="CENTER" prefWidth="330.0" prefHeight="300.0">
-            <AnchorPane prefWidth="330.0" prefHeight="300.0">
+        <!-- Container for Perspective 1 with clipping and containment, spanning half the screen -->
+        <VBox layoutX="1.0" layoutY="125.0" spacing="10" alignment="CENTER" prefWidth="500.0" prefHeight="700.0" >
+            <HBox spacing="10" alignment="CENTER">
+                <Button fx:id="undo_perspective1" mnemonicParsing="false" text="Undo"/>
+                <Button fx:id="redo_perspective1" mnemonicParsing="false" text="Redo"/>
+            </HBox>
+            <AnchorPane prefWidth="500.0" prefHeight="500.0" style="-fx-border-color: black; -fx-border-width: 2;">
                 <ImageView fx:id="perspective_1" fitHeight="300.0" fitWidth="330.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0">
                     <image>
                         <Image url="@shrec.jpg"/>
                     </image>
                 </ImageView>
             </AnchorPane>
-            <HBox spacing="10" alignment="CENTER">
-                <Button fx:id="undo_perspective1" mnemonicParsing="false" text="Undo"/>
-                <Button fx:id="redo_perspective1" mnemonicParsing="false" text="Redo"/>
-            </HBox>
+
         </VBox>
 
-        <!-- Container for Perspective 2 with clipping and containment -->
-        <VBox layoutX="546.0" layoutY="225.0" spacing="10" alignment="CENTER" prefWidth="330.0" prefHeight="300.0">
-            <AnchorPane prefWidth="330.0" prefHeight="300.0">
+        <!-- Container for Perspective 2 with clipping and containment, spanning half the screen -->
+        <VBox layoutX="520.0" layoutY="125.0" spacing="10" alignment="CENTER" prefWidth="500.0" prefHeight="700.0" >
+            <HBox spacing="10" alignment="CENTER">
+                <Button fx:id="undo_perspective2" mnemonicParsing="false" text="Undo"/>
+                <Button fx:id="redo_perspective2" mnemonicParsing="false" text="Redo"/>
+            </HBox>
+            <AnchorPane prefWidth="500.0" prefHeight="500.0" style="-fx-border-color: black; -fx-border-width: 2;">
                 <ImageView fx:id="perspective_2" fitHeight="300.0" fitWidth="330.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0">
                     <image>
                         <Image url="@shrec.jpg"/>
                     </image>
                 </ImageView>
             </AnchorPane>
-            <HBox spacing="10" alignment="CENTER">
-                <Button fx:id="undo_perspective2" mnemonicParsing="false" text="Undo"/>
-                <Button fx:id="redo_perspective2" mnemonicParsing="false" text="Redo"/>
-            </HBox>
+
         </VBox>
     </children>
 </AnchorPane>
