@@ -19,9 +19,17 @@ public class PerspectiveView implements View {
     }
 
     @Override
-    public void display(ImageView imageView) {
+    public void display(Perspective perspective) {
 
-        imageView.setScaleX(perspective.getScaleX());
-        imageView.setScaleY(perspective.getScaleY());
+        setPerspective(perspective);
+        ImageView imageView = perspective.getImageView();
+
+//        imageView.setScaleX(perspective.getScaleX());
+//        imageView.setScaleY(perspective.getScaleY());
+
+        imageView.setTranslateX(perspective.getTranslationX());
+        imageView.setTranslateY(perspective.getTranslationY());
+
+        System.out.println("ImageView set to translate : " + perspective.getTranslationX() + " X   and    " + perspective.getTranslationY() + " Y");
     }
 }

@@ -6,7 +6,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -14,6 +13,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class Controller implements Observer {
@@ -75,6 +75,8 @@ public class Controller implements Observer {
         OriginalView originalView = new OriginalView(originalPerspective);
         this.commandManager = CommandManager.getInstance();
         careTaker = new CareTaker(model);
+        careTaker.savePerspective(1);
+        careTaker.savePerspective(2);
         this.views = new ArrayList<>();
         addView(perspectiveView1);
         addView(perspectiveView2);
@@ -96,23 +98,40 @@ public class Controller implements Observer {
 //            imageView.setScaleY(scale);
 //        });
 
-        imageView.setOnMousePressed(event -> { // save in memento here? For initial state of the imageView before any translation?
+        AtomicBoolean isDragging = new AtomicBoolean(false);
+        double dragThreshold = 5.0;
+
+        imageView.setOnMousePressed(event -> {
+            isDragging.set(false);
             imageView.setUserData(new double[]{event.getSceneX(), event.getSceneY(), imageView.getTranslateX(), imageView.getTranslateY()});
-            int index = 0;
-            for (View view : views) {
-                if (view instanceof PerspectiveView) {
-                    if (view.getPerspective().getImageView().equals(imageView)) {
-                        index = views.indexOf(view) + 1;
-                    }
-                }
-            }
-            careTaker.savePerspective(index);
+            System.out.println("GetTranslateX : " + imageView.getTranslateX() + "  GetTranslateY : " + imageView.getTranslateY());
         });
 
-        imageView.setOnMouseDragged(event -> {
+        imageView.setOnMouseDragged(event -> { // save in memento here? For initial state of the imageView before any translation?
             double deltaX = event.getSceneX();
             double deltaY = event.getSceneY();
+            System.out.println("Drag detected");
+            double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+            if (distance > dragThreshold) {
+                isDragging.set(true);
+            }
             handleTranslate(imageView ,deltaX, deltaY);
+        });
+
+        imageView.setOnMouseReleased(event -> {
+            if (isDragging.get()) {
+                int index = 0;
+                for (View view : views) {
+                    if (view instanceof PerspectiveView) {
+                        if (view.getPerspective().getImageView().equals(imageView)) {
+                            index = views.indexOf(view) + 1;
+                        }
+                    }
+                }
+
+                System.out.println("Drag done");
+                careTaker.savePerspective(index);
+            }
         });
     }
 
@@ -202,7 +221,8 @@ public class Controller implements Observer {
 
     @Override
     public void update(Subject subject) {
-        views.get(0).display(perspective_1);
-        views.get(1).display(perspective_2);
+        ImageModel model = (ImageModel) subject;
+        views.get(0).display(model.getCurrentPerspective(1));
+        views.get(1).display(model.getCurrentPerspective(2));
     }
 }

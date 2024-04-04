@@ -21,11 +21,6 @@ public class Perspective {
         this.scaleY = imageView.getScaleY();
     }
 
-    public Perspective(Perspective perspective) {
-        this.index = perspective.getIndex();
-        this.imageView = perspective.getImageView();
-    }
-
     public ImageView getImageView() {
         return imageView;
     }
@@ -64,25 +59,23 @@ public class Perspective {
     public void setTranslationY(double translationY) {
         this.translationY = translationY;
     }
-
     public int getIndex() {
         return index;
     }
 
-    public Perspective clone() {
-        Perspective perspective = new Perspective(this);
-
-        return  perspective;
-    }
-
     public void translate(double[] data, double deltaX, double deltaY) {
+        System.out.println("Data :" + data[2] + " " + data[0] + "  deltaX : " +
+                deltaX + "   deltaY : " + deltaY);
         double translateX = data[2] + deltaX - data[0];
         double translateY = data[3] + deltaY - data[1];
 
         translateX = Math.max(Math.min(translateX, 603 - imageView.getFitWidth()), 0);
         translateY = Math.max(Math.min(translateY, 497 - imageView.getFitHeight()), 0);
 
-        imageView.setTranslateX(translateX);
-        imageView.setTranslateY(translateY);
+        setTranslationX(translateX);
+        setTranslationY(translateY);
+
+        System.out.println("Translate X : " + this.translationX);
+        System.out.println("Translate Y : " + this.translationY);
     }
 }
