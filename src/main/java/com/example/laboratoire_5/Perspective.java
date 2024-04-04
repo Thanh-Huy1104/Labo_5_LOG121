@@ -4,7 +4,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.ScrollEvent;
 
 public class Perspective {
-    private double scale;
+    private double scaleX;
+    private double scaleY;
     private double translationX;
     private double translationY;
     private int index;
@@ -15,6 +16,8 @@ public class Perspective {
         this.imageView = imageView;
         this.translationX = imageView.getTranslateX();
         this.translationY = imageView.getTranslateY();
+        this.scaleX = imageView.getScaleX();
+        this.scaleY = imageView.getScaleY();
     }
 
     public Perspective(Perspective perspective) {
@@ -30,12 +33,19 @@ public class Perspective {
         this.imageView = imageView;
     }
 
-    public double getScale() {
-        return scale;
+    public double getScaleX() {
+        return scaleX;
     }
 
-    public void setScale(double scale) {
-        this.scale = scale;
+    public double getScaleY() {
+        return scaleY;
+    }
+
+    public void setScaleX(double scaleX) {
+        this.scaleX = scaleX;
+    }
+    public void setScaleY(double scaleY) {
+        this.scaleY = scaleY;
     }
 
     public double getTranslationX() {

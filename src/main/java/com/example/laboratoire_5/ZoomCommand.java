@@ -18,9 +18,11 @@ public class ZoomCommand implements Command {
     public void execute(int index) {
         Perspective currentPerspective = model.getPerspective(index);
         if (zoomIn) {
-            currentPerspective.setScale(currentPerspective.getScale() * zoomFactor);
+            currentPerspective.setScaleX(currentPerspective.getScaleX() * zoomFactor);
+            currentPerspective.setScaleY(currentPerspective.getScaleY() * zoomFactor);
         } else {
-            currentPerspective.setScale(currentPerspective.getScale() / zoomFactor);
+            currentPerspective.setScaleX(currentPerspective.getScaleX()/zoomFactor);
+            currentPerspective.setScaleY(currentPerspective.getScaleY()/zoomFactor);
         }
         // Notifie les observateurs après le changement de perspective
         model.notifyObservers();

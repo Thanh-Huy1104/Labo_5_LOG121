@@ -23,14 +23,10 @@ public class ImageModel implements Subject {
 
     public ImageModel() {
         this.originalImage = null; // Vous devez obtenir l'image d'une autre manière, car elle n'est pas fournie ici
-        this.perspective1 = new Perspective();
-        this.perspective2 = new Perspective();
         this.perspectiveList = new ArrayList<>(); // Initialisez la liste
         perspectiveList.add(perspective1);
         perspectiveList.add(perspective2);
         this.observers = new ArrayList<>(); // Assurez-vous d'initialiser cette liste également
-        this.careTaker1 = new CareTaker(this);
-        this.careTaker2 = new CareTaker(this);
     }
 
     public Image getOriginalImage() {
@@ -100,7 +96,7 @@ public class ImageModel implements Subject {
 
     //pas sure
     public void modifyScalePerspective(float scale, int index) {
-        getCurrentPerspective(perspectiveList.size()-1).setScale(scale);
+//        getCurrentPerspective(perspectiveList.size()-1).setScale(scale);
     }
 
     public void modifyTranslationPerspective(int index, double[] data, double deltaX, double deltaY) {

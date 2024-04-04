@@ -67,13 +67,14 @@ public class Controller implements Observer {
         model.addPerspective(perspective1);
         model.addPerspective(perspective2);
         model.addPerspective(originalPerspective);
+        model.setCurrentPerspective(1, perspective1);
+        model.setCurrentPerspective(2, perspective2);
         model.attach(this);
         PerspectiveView perspectiveView1 = new PerspectiveView(perspective1);
         PerspectiveView perspectiveView2 = new PerspectiveView(perspective2);
         OriginalView originalView = new OriginalView(originalPerspective);
         this.commandManager = CommandManager.getInstance();
         careTaker = new CareTaker(model);
-        commandManager.setCareTaker(careTaker);
         this.views = new ArrayList<>();
         addView(perspectiveView1);
         addView(perspectiveView2);
@@ -192,20 +193,8 @@ public class Controller implements Observer {
     }
 
     @Override
-    public void update() {
-        Perspective perspective1 = model.getCurrentPerspective(0); // Récupérer la perspective 1 du modèle
-        Perspective perspective2 = model.getCurrentPerspective(1); // Récupérer la perspective 1 du modèle
-        if (perspective1 != null) {
-            // Mettre à jour l'échelle de perspective_1 en fonction de l'échelle de la perspective récupérée
-            perspective_1.setScaleX(perspective1.getScale());
-            perspective_1.setScaleY(perspective1.getScale());
-        }
-
-        if (perspective2 != null) {
-            // Mettre à jour l'échelle de perspective_1 en fonction de l'échelle de la perspective récupérée
-            perspective_2.setScaleX(perspective2.getScale());
-            perspective_2.setScaleY(perspective2.getScale());
-        }
-
+    public void update(Subject subject) {
+        views.get(0).display(perspective_1);
+        views.get(1).display(perspective_2);
     }
 }

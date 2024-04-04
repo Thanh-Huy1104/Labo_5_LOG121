@@ -19,7 +19,9 @@ public class PerspectiveView implements View {
     }
 
     @Override
-    public void display(Perspective perspective) {
-        setPerspective(perspective);
+    public void display(ImageView imageView) {
+
+        imageView.setScaleX(perspective.getScaleX());
+        imageView.setScaleY(perspective.getScaleY());
     }
 }
