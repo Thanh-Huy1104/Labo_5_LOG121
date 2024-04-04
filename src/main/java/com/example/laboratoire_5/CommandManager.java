@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommandManager {
-
-    private Command c;
     private static CommandManager instance = new CommandManager();
 
     private CommandManager() {}

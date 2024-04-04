@@ -11,7 +11,6 @@ public class Perspective {
     private int index;
     private ImageView imageView;
 
-
     public Perspective(int index, ImageView imageView) {
         this.index = index;
         this.imageView = imageView;
