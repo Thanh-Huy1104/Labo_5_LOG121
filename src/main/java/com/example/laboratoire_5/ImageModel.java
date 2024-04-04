@@ -101,17 +101,13 @@ public class ImageModel implements Subject {
 
     public void modifyTranslationPerspective(int index, double[] data, double deltaX, double deltaY) {
         Perspective perspective = getCurrentPerspective(index);
-        Perspective newPerspective = perspective.clone();
-        newPerspective.translate(data, deltaX, deltaY);
-        setCurrentPerspective(newPerspective.getIndex(), newPerspective);
+        perspective.translate(data, deltaX, deltaY);
         notifyObservers();
     }
 
     public Memento createMemento(int index) {
         Memento memento = new Memento();
         Perspective currentPerspective = getCurrentPerspective(index);
-        currentPerspective.setTranslationX(currentPerspective.getImageView().getTranslateX());
-        currentPerspective.setTranslationY(currentPerspective.getImageView().getTranslateY());
         memento.setPerspective(index, currentPerspective);
 
         return memento;
@@ -119,8 +115,6 @@ public class ImageModel implements Subject {
 
     public void setMemento(Memento m, int index) {
         Perspective newPerspective = m.getPerspective(index);
-        newPerspective.getImageView().setTranslateX(newPerspective.getTranslationX());
-        newPerspective.getImageView().setTranslateY(newPerspective.getTranslationY());
         setCurrentPerspective(index, newPerspective);
     }
 }
