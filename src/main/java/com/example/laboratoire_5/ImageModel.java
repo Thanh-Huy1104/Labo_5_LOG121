@@ -20,6 +20,9 @@ public class ImageModel implements Subject {
         this.observers = new ArrayList<>();
     }
 
+    public List<Perspective> getperspectiveList(){
+        return perspectiveList;
+    }
 
     public ImageModel() {
         this.originalImage = null; // Vous devez obtenir l'image d'une autre manière, car elle n'est pas fournie ici

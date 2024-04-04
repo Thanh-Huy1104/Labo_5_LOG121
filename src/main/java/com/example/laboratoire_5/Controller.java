@@ -141,7 +141,15 @@ public class Controller implements Observer {
         ZoomCommand zoomCommand = new ZoomCommand(model, index, zoomFactor, zoomIn);
         commandManager.executeCommand(zoomCommand, index);
     }
-
+//if mouse location is on the perspective, it will zoom into that given perspective
+    void handleZoomPerspective(ScrollEvent event){
+        double deltaY = event.getDeltaY();
+        boolean zoomIn = deltaY < 0; // Si deltaY est négatif, c'est un zoom arrière, sinon c'est un zoom avant
+        double mouseX = event.getX();
+        double mouseY = event.getY();
+        Command zoomCommand=new ZoomCommand(model,mouseX,mouseY,zoomIn);
+        zoomCommand.execute();
+    }
     private void handleTranslate(ImageView imageView, double deltaX, double deltaY) {
         double[] data = (double[]) imageView.getUserData();
         TranslationCommand translateCommand = new TranslationCommand(model, deltaX, deltaY, data);
