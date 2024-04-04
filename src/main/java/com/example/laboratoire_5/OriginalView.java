@@ -17,4 +17,9 @@ public class OriginalView implements View {
     public Perspective getPerspective() {
         return null;
     }
+
+    @Override
+    public Perspective getPerspective() {
+        return null;
+    }
 }

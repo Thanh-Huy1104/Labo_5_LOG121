@@ -34,7 +34,7 @@ public class Perspective {
         return scale;
     }
 
-    public void setScale(float scale) {
+    public void setScale(double scale) {
         this.scale = scale;
     }
 
