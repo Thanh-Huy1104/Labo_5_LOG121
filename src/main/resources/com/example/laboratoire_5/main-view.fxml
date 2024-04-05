@@ -46,8 +46,8 @@
         <!-- Container for Perspective 1 with clipping and containment, spanning half the screen -->
         <VBox alignment="CENTER" layoutX="1.0" layoutY="125.0" prefHeight="700.0" prefWidth="500.0" spacing="10">
             <HBox alignment="CENTER" spacing="10">
-                <Button fx:id="undo_perspective1" mnemonicParsing="false" text="Undo" />
-                <Button fx:id="redo_perspective1" mnemonicParsing="false" text="Redo" />
+                <Button fx:id="undo_perspective1" mnemonicParsing="false" text="Undo" onAction="#undoPerspective1" />
+                <Button fx:id="redo_perspective1" mnemonicParsing="false" text="Redo"/>
             </HBox>
             <AnchorPane prefHeight="500.0" prefWidth="500.0" style="-fx-border-color: black; -fx-border-width: 2;">
                 <ImageView fx:id="perspective_1" fitHeight="300.0" fitWidth="330.0" onScroll="#handleZoomPerspective1" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
@@ -62,7 +62,7 @@
         <!-- Container for Perspective 2 with clipping and containment, spanning half the screen -->
         <VBox alignment="CENTER" layoutX="520.0" layoutY="125.0" prefHeight="700.0" prefWidth="500.0" spacing="10">
             <HBox alignment="CENTER" spacing="10">
-                <Button fx:id="undo_perspective2" mnemonicParsing="false" text="Undo" />
+                <Button fx:id="undo_perspective2" mnemonicParsing="false" text="Undo" onAction="#undoPerspective2"/>
                 <Button fx:id="redo_perspective2" mnemonicParsing="false" text="Redo" />
             </HBox>
             <AnchorPane prefHeight="500.0" prefWidth="500.0" style="-fx-border-color: black; -fx-border-width: 2;">

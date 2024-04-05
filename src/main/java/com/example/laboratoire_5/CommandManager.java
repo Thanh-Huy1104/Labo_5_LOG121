@@ -6,7 +6,25 @@ import java.util.List;
 public class CommandManager {
     private static CommandManager instance = new CommandManager();
 
-    private CommandManager() {}
+    private CareTaker careTaker;
+
+    public CareTaker getCareTaker() {
+        return careTaker;
+    }
+
+    public void setCareTaker(CareTaker careTaker) {
+        this.careTaker = careTaker;
+    }
+
+    public ImageModel getImageModel() {
+        return imageModel;
+    }
+
+    public void setImageModel(ImageModel imageModel) {
+        this.imageModel = imageModel;
+    }
+
+    private ImageModel imageModel;
 
     public static CommandManager getInstance() {
         return instance; // instance can never be null;
@@ -16,7 +34,17 @@ public class CommandManager {
     public void executeCommand(Command command, int index) {
         command.execute(index);
     }
-//    public void undoCommand(int index) {
-//        careTaker.getLastPerspective(index);
-//    }
+    public void undo(int index) {
+        Memento memento = careTaker.getLastMemento();
+        if (memento != null) {
+            System.out.println("Undoing command");
+            imageModel.restoreFromMemento(memento, index);
+        }
+    };
+
+    public void redoCommand(int index) {
+        // TODO
+    }
+
+
 }

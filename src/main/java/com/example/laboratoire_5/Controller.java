@@ -74,9 +74,11 @@ public class Controller implements Observer {
         PerspectiveView perspectiveView2 = new PerspectiveView(perspective2);
         OriginalView originalView = new OriginalView(originalPerspective);
         this.commandManager = CommandManager.getInstance();
+        this.commandManager.setImageModel(model);
         careTaker = new CareTaker(model);
-        careTaker.savePerspective(1);
-        careTaker.savePerspective(2);
+        this.commandManager.setCareTaker(careTaker);
+        careTaker.savePerspective(1, new double[]{0, 0, 0, 0});
+        careTaker.savePerspective(2, new double[]{0, 0, 0, 0});
         this.views = new ArrayList<>();
         addView(perspectiveView1);
         addView(perspectiveView2);
@@ -104,13 +106,11 @@ public class Controller implements Observer {
         imageView.setOnMousePressed(event -> {
             isDragging.set(false);
             imageView.setUserData(new double[]{event.getSceneX(), event.getSceneY(), imageView.getTranslateX(), imageView.getTranslateY()});
-            System.out.println("GetTranslateX : " + imageView.getTranslateX() + "  GetTranslateY : " + imageView.getTranslateY());
         });
 
         imageView.setOnMouseDragged(event -> { // save in memento here? For initial state of the imageView before any translation?
             double deltaX = event.getSceneX();
             double deltaY = event.getSceneY();
-            System.out.println("Drag detected");
             double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
             if (distance > dragThreshold) {
                 isDragging.set(true);
@@ -129,8 +129,7 @@ public class Controller implements Observer {
                     }
                 }
 
-                System.out.println("Drag done");
-                careTaker.savePerspective(index);
+                careTaker.savePerspective(index, (double[]) imageView.getUserData());
             }
         });
     }
@@ -175,12 +174,12 @@ public class Controller implements Observer {
 
     @FXML
     void undoPerspective1() {
-        careTaker.getLastPerspective(1);
+        commandManager.undo(1);
     }
 
     @FXML
     void undoPerspective2() {
-        careTaker.getLastPerspective(2);
+        commandManager.undo(2);
     }
 
     @FXML

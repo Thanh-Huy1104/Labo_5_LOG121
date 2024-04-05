@@ -63,8 +63,6 @@ public class Perspective {
     }
 
     public void translate(double[] data, double deltaX, double deltaY) {
-        System.out.println("Data :" + data[2] + " " + data[0] + "  deltaX : " +
-                deltaX + "   deltaY : " + deltaY);
         double translateX = data[2] + deltaX - data[0];
         double translateY = data[3] + deltaY - data[1];
 
@@ -73,8 +71,5 @@ public class Perspective {
 
         setTranslationX(translateX);
         setTranslationY(translateY);
-
-        System.out.println("Translate X : " + this.translationX);
-        System.out.println("Translate Y : " + this.translationY);
     }
 }

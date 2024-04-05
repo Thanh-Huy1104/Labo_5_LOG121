@@ -105,16 +105,19 @@ public class ImageModel implements Subject {
         notifyObservers();
     }
 
-    public Memento createMemento(int index) {
-        Memento memento = new Memento();
+    public Memento saveToMemento(int index, double[] imageViewData) {
+        Memento memento = new Memento(index, imageViewData);
         Perspective currentPerspective = getCurrentPerspective(index);
         memento.setPerspective(index, currentPerspective);
-
         return memento;
     }
 
-    public void setMemento(Memento m, int index) {
+    public void restoreFromMemento(Memento m, int index) {
+        System.out.println(m.getImageViewData(index)[0] + " " + m.getImageViewData(index)[1]);
         Perspective newPerspective = m.getPerspective(index);
         setCurrentPerspective(index, newPerspective);
+        //Will to be changed
+        newPerspective.getImageView().setTranslateX(m.getImageViewData(index)[2]);
+        newPerspective.getImageView().setTranslateY(m.getImageViewData(index)[3]);
     }
 }

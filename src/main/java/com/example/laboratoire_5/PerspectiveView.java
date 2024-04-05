@@ -29,7 +29,5 @@ public class PerspectiveView implements View {
 
         imageView.setTranslateX(perspective.getTranslationX());
         imageView.setTranslateY(perspective.getTranslationY());
-
-        System.out.println("ImageView set to translate : " + perspective.getTranslationX() + " X   and    " + perspective.getTranslationY() + " Y");
     }
 }
