@@ -50,7 +50,7 @@
                 <Button fx:id="redo_perspective1" mnemonicParsing="false" text="Redo"/>
             </HBox>
             <AnchorPane prefHeight="500.0" prefWidth="500.0" style="-fx-border-color: black; -fx-border-width: 2;">
-                <ImageView fx:id="perspective_1" fitHeight="300.0" fitWidth="330.0" onScroll="#handleZoomPerspective1" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+                <ImageView fx:id="perspective_1" fitHeight="300.0" fitWidth="330.0" onScroll="#handleZoomPerspective" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
                     <image>
                         <Image url="@shrec.jpg" />
                     </image>
@@ -66,7 +66,7 @@
                 <Button fx:id="redo_perspective2" mnemonicParsing="false" text="Redo" />
             </HBox>
             <AnchorPane prefHeight="500.0" prefWidth="500.0" style="-fx-border-color: black; -fx-border-width: 2;">
-                <ImageView fx:id="perspective_2" fitHeight="300.0" fitWidth="330.0" onScroll="#handleZoomPerspective2" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+                <ImageView fx:id="perspective_2" fitHeight="300.0" fitWidth="330.0" onScroll="#handleZoomPerspective" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
                     <image>
                         <Image url="@shrec.jpg" />
                     </image>

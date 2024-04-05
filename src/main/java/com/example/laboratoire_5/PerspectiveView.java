@@ -24,8 +24,8 @@ public class PerspectiveView implements View {
         setPerspective(perspective);
         ImageView imageView = perspective.getImageView();
 
-//        imageView.setScaleX(perspective.getScaleX());
-//        imageView.setScaleY(perspective.getScaleY());
+        imageView.setScaleX(perspective.getScaleX());
+        imageView.setScaleY(perspective.getScaleY());
 
         imageView.setTranslateX(perspective.getTranslationX());
         imageView.setTranslateY(perspective.getTranslationY());

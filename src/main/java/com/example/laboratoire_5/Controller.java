@@ -88,18 +88,6 @@ public class Controller implements Observer {
     }
 
     private void setupZoomAndDrag(ImageView imageView) {
-//        imageView.setOnScroll(event -> {
-//            double deltaY = event.getDeltaY();
-//            double scale = imageView.getScaleX();
-//            if (deltaY < 0) {
-//                scale -= 0.1;
-//            } else {
-//                scale += 0.1;
-//            }
-//            imageView.setScaleX(scale);
-//            imageView.setScaleY(scale);
-//        });
-
         AtomicBoolean isDragging = new AtomicBoolean(false);
         double dragThreshold = 5.0;
 
@@ -138,26 +126,20 @@ public class Controller implements Observer {
         this.views.add(view);
     }
 
-
-    @FXML
-    void handleZoomPerspective1(ScrollEvent event) {
-        double deltaY = event.getDeltaY();
-        double zoomFactor = 0.1; // Facteur de zoom
-        int index = 0;
-        boolean zoomIn = deltaY < 0; // Si deltaY est négatif, c'est un zoom arrière, sinon c'est un zoom avant
-        ZoomCommand zoomCommand = new ZoomCommand(model, index, zoomFactor, zoomIn);
-        commandManager.executeCommand(zoomCommand, index);
-
-    }
-
-    @FXML
-    void handleZoomPerspective2(ScrollEvent event) {
-        double deltaY = event.getDeltaY();
-        double zoomFactor = 0.1; // Facteur de zoom
-        int index = 1;
-        boolean zoomIn = deltaY < 0; // Si deltaY est négatif, c'est un zoom arrière, sinon c'est un zoom avant
-        ZoomCommand zoomCommand = new ZoomCommand(model, index, zoomFactor, zoomIn);
-        commandManager.executeCommand(zoomCommand, index);
+   @FXML
+   void handleZoomPerspective(ScrollEvent event) {
+       ImageView imageView = (ImageView) event.getSource();
+       double deltaY = event.getDeltaY();
+       double zoomFactor = 0.1; // Facteur de zoom
+       boolean zoomIn = deltaY < 0; // Si deltaY est négatif, c'est un zoom arrière, sinon c'est un zoom avant
+       ZoomCommand zoomCommand = new ZoomCommand(model, zoomFactor, zoomIn);
+       for (View view : views) {
+           if (view instanceof PerspectiveView) {
+               if (view.getPerspective().getImageView().equals(imageView)) {
+                   commandManager.executeCommand(zoomCommand, views.indexOf(view) + 1);
+               }
+           }
+       }
     }
 
     private void handleTranslate(ImageView imageView, double deltaX, double deltaY) {
