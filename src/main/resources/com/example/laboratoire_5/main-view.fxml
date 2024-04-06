@@ -10,24 +10,28 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="774.0" prefWidth="1022.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.laboratoire_5.Controller">
+<?import javafx.scene.control.ScrollPane?>
+<AnchorPane prefHeight="774.0" prefWidth="1022.0" xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.laboratoire_5.Controller">
     <children>
         <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="1022.0">
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
-                        <MenuItem fx:id="menuitem_saveperspective1" mnemonicParsing="false" onAction="#saveModel" text="Save model" />
-                        <MenuItem fx:id="menuitem_saveperspective2" mnemonicParsing="false" onAction="#loadModel" text="Load model" />
+                        <MenuItem fx:id="menuitem_saveperspective1" mnemonicParsing="false" onAction="#saveModel"
+                                  text="Save model"/>
+                        <MenuItem fx:id="menuitem_saveperspective2" mnemonicParsing="false" onAction="#loadModel"
+                                  text="Load model"/>
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edit">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Delete" />
+                        <MenuItem mnemonicParsing="false" text="Delete"/>
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="About" />
+                        <MenuItem mnemonicParsing="false" text="About"/>
                     </items>
                 </Menu>
             </menus>
@@ -35,9 +39,10 @@
 
         <!-- Container for the original image centered at the top -->
         <HBox alignment="CENTER" layoutY="25.0" prefHeight="200.0" prefWidth="1022.0">
-            <ImageView fx:id="original_image" fitHeight="150.0" fitWidth="330.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="original_image" fitHeight="150.0" fitWidth="330.0" pickOnBounds="true"
+                       preserveRatio="true">
                 <image>
-                    <Image url="@shrec.jpg" />
+                    <Image url="@shrec.jpg"/>
                 </image>
             </ImageView>
         </HBox>
@@ -45,33 +50,40 @@
         <!-- Container for Perspective 1 with clipping and containment, spanning half the screen -->
         <VBox alignment="CENTER" layoutX="1.0" layoutY="125.0" prefHeight="700.0" prefWidth="500.0" spacing="10">
             <HBox alignment="CENTER" spacing="10">
-                <Button fx:id="undo_perspective1" mnemonicParsing="false" onAction="#undoPerspective1" text="Undo" />
-                <Button fx:id="redo_perspective1" mnemonicParsing="false" text="Redo" />
+                <Button fx:id="undo_perspective1" mnemonicParsing="false" onAction="#undoPerspective1" text="Undo"/>
+                <Button fx:id="redo_perspective1" mnemonicParsing="false" text="Redo"/>
             </HBox>
-            <AnchorPane prefHeight="500.0" prefWidth="500.0" style="-fx-border-color: black; -fx-border-width: 2;">
-                <ImageView fx:id="perspective_1" fitHeight="300.0" fitWidth="330.0" onScroll="#handleZoomPerspective" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+            <ScrollPane fx:id="scrollPane1" layoutY="27.0" prefHeight="500.0" prefWidth="500.0" fitToWidth="true" fitToHeight="true"
+                        cacheHint="SCALE">
+
+                <ImageView fx:id="perspective_1" fitHeight="300.0" fitWidth="330.0"
+                           onScroll="#handleZoomPerspective" pickOnBounds="true" preserveRatio="true"
+                           cacheHint="SCALE">
                     <image>
-                        <Image url="@shrec.jpg" />
+                        <Image url="@shrec.jpg"/>
                     </image>
                 </ImageView>
-            </AnchorPane>
 
+            </ScrollPane>
         </VBox>
 
         <!-- Container for Perspective 2 with clipping and containment, spanning half the screen -->
         <VBox alignment="CENTER" layoutX="520.0" layoutY="125.0" prefHeight="700.0" prefWidth="500.0" spacing="10">
             <HBox alignment="CENTER" spacing="10">
-                <Button fx:id="undo_perspective2" mnemonicParsing="false" onAction="#undoPerspective2" text="Undo" />
-                <Button fx:id="redo_perspective2" mnemonicParsing="false" text="Redo" />
+                <Button fx:id="undo_perspective2" mnemonicParsing="false" onAction="#undoPerspective2" text="Undo"/>
+                <Button fx:id="redo_perspective2" mnemonicParsing="false" text="Redo"/>
             </HBox>
-            <AnchorPane prefHeight="500.0" prefWidth="500.0" style="-fx-border-color: black; -fx-border-width: 2;">
-                <ImageView fx:id="perspective_2" fitHeight="300.0" fitWidth="330.0" onScroll="#handleZoomPerspective" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+            <ScrollPane fx:id="scrollPane2" layoutX="520.0" layoutY="27.0" prefHeight="500.0" prefWidth="500.0" fitToWidth="true"
+                        fitToHeight="true" cacheHint="SCALE">
+
+                <ImageView fx:id="perspective_2" fitHeight="300.0" fitWidth="330.0" onScroll="#handleZoomPerspective"
+                           pickOnBounds="true" preserveRatio="true" cacheHint="SCALE">
                     <image>
-                        <Image url="@shrec.jpg" />
+                        <Image url="@shrec.jpg"/>
                     </image>
                 </ImageView>
-            </AnchorPane>
 
+            </ScrollPane>
         </VBox>
     </children>
 </AnchorPane>
