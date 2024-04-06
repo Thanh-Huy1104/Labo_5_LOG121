@@ -1,20 +1,15 @@
 package com.example.laboratoire_5;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CommandManager {
     private static CommandManager instance = new CommandManager();
+    private Map<Integer, CareTaker> careTakers;
 
-    private CareTaker careTaker;
 
-    public CareTaker getCareTaker() {
-        return careTaker;
-    }
-
-    public void setCareTaker(CareTaker careTaker) {
-        this.careTaker = careTaker;
-    }
 
     public ImageModel getImageModel() {
         return imageModel;
@@ -26,8 +21,20 @@ public class CommandManager {
 
     private ImageModel imageModel;
 
+    private CommandManager() {
+        careTakers = new HashMap<>(); // Initialisation de la carte
+    }
+
     public static CommandManager getInstance() {
         return instance; // instance can never be null;
+    }
+
+    public CareTaker getCareTaker(int index) {
+        return careTakers.get(index);
+    }
+
+    public void setCareTaker(int perspectiveIndex, CareTaker careTaker) {
+        careTakers.put(perspectiveIndex, careTaker);
     }
 
     // Why do we need a list of commands if this is how we execute commands?? Gotta check patron commande
@@ -35,10 +42,12 @@ public class CommandManager {
         command.execute(index);
     }
     public void undo(int index) {
-        Memento memento = careTaker.getLastMemento();
-        if (memento != null) {
-            System.out.println("Undoing command");
-            imageModel.restoreFromMemento(memento, index);
+        CareTaker careTaker = careTakers.get(index);
+        if (careTaker != null) {
+            Memento memento = careTaker.getLastMemento();
+            if (memento != null) {
+                imageModel.restoreFromMemento(memento, index);
+            }
         }
     };
 
