@@ -134,10 +134,10 @@ public class Controller implements Observer {
         }
 
         // Définir l'échelle et la translation pour la première perspective
-        perspective1.setScaleX(originalImageScale);
-        perspective1.setScaleY(originalImageScale);
-        perspective1.getImageView().setTranslateX(originalImageTranslateX);
-        perspective1.getImageView().setTranslateY(originalImageTranslateY);
+//        perspective1.setScaleX(originalImageScale);
+//        perspective1.setScaleY(originalImageScale);
+//        perspective1.getImageView().setTranslateX(originalImageTranslateX);
+//        perspective1.getImageView().setTranslateY(originalImageTranslateY);
 
         // Configurer le zoom et le déplacement pour les perspectives
         setupZoomAndDrag(perspective_1, 1);
@@ -265,26 +265,16 @@ public class Controller implements Observer {
 
         if (loadedModel != null) {
             this.model = loadedModel;
-            updateViews(model);
+            restoreModel(model);
         }
     }
 
-    private void updateViews(ImageModel model) {
+    private void restoreModel(ImageModel model) {
         // Since observers are not serialized, we need to reattach them
         model.setObservers();
         model.attach(this);
 
-        // Since ImageViews are not serialized, we need to reassign them
-        for (Perspective perspective : model.getPerspectiveList()) {
-            if (perspective.getIndex() == 1) {
-                perspective.setImageView(perspective_1);
-            } else if (perspective.getIndex() == 2) {
-                perspective.setImageView(perspective_2);
-            }
-        }
-
-        // Unsure about this respecting the observer pattern
-        model.notifyObservers();
+        model.updateModel(perspective_1, perspective_2);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.example.laboratoire_5;
 
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -114,25 +115,25 @@ public class ImageModel implements Subject, Serializable {
         if (perspective != null) {
             double scaleFactor = zoomIn ? zoomFactor : (1.0 / zoomFactor);
 
-            // Obtenir les dimensions de l'image et les facteurs de zoom actuels
+            // Get image dimensions and current scale factors
             double imageWidth = perspective.getImageView().getFitWidth();
             double imageHeight = perspective.getImageView().getFitHeight();
             double currentScaleX = perspective.getScaleX();
             double currentScaleY = perspective.getScaleY();
 
-            // Calculer les nouveaux facteurs de zoom
+            // Calculate new scale factors
             double newScaleX = currentScaleX * scaleFactor;
             double newScaleY = currentScaleY * scaleFactor;
 
-            // Calculer les coordonnées de la souris par rapport à l'image
-            double mouseXInImage = (mouseX - perspective.getImageView().getLayoutX()) / currentScaleX;
-            double mouseYInImage = (mouseY - perspective.getImageView().getLayoutY()) / currentScaleY;
+            // Calculate the offset from the mouse position to the image position
+            double offsetX = (mouseX - perspective.getImageView().getLayoutX()) / imageWidth;
+            double offsetY = (mouseY - perspective.getImageView().getLayoutY()) / imageHeight;
 
-            // Calculer les nouveaux décalages
-            double deltaX = perspective.getImageView().getTranslateX() - mouseXInImage * (newScaleX - currentScaleX);
-            double deltaY = perspective.getImageView().getTranslateY() - mouseYInImage * (newScaleY - currentScaleY);
+            // Calculate the new translation to keep the mouse position stable
+            double deltaX = perspective.getImageView().getTranslateX() - offsetX * (newScaleX - currentScaleX) * imageWidth;
+            double deltaY = perspective.getImageView().getTranslateY() - offsetY * (newScaleY - currentScaleY) * imageHeight;
 
-            // Appliquer les nouveaux facteurs de zoom et décalages
+            // Apply the new scale factors and translations
             perspective.setScaleX(newScaleX);
             perspective.setScaleY(newScaleY);
             perspective.getImageView().setTranslateX(deltaX);
@@ -173,6 +174,20 @@ public class ImageModel implements Subject, Serializable {
     // Just needed to add some sort of initialization to the observers list
     public void setObservers() {
         this.observers = new ArrayList<>();
+    }
+
+    public void updateModel(ImageView im1, ImageView im2) {
+        // Since ImageViews are not serialized, we need to reassign them
+        for (Perspective perspective : perspectiveList) {
+            if (perspective.getIndex() == 1) {
+                perspective.setImageView(im1);
+            } else if (perspective.getIndex() == 2) {
+                perspective.setImageView(im2);
+            }
+        }
+
+        // Unsure about this respecting the observer pattern
+        notifyObservers();
     }
 
 }
