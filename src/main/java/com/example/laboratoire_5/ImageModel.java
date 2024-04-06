@@ -97,11 +97,6 @@ public class ImageModel implements Subject, Serializable {
         }
     }
 
-    // Same function twice fix this
-    public Perspective getPerspective(int index) {
-        return perspectiveList.get(index);
-    }
-
     public void attach(Observer observer) {
         observers.add(observer);
     }
@@ -160,18 +155,17 @@ public class ImageModel implements Subject, Serializable {
     public void restoreFromMemento(Memento m, int index) {
         double[] imageViewData = m.getImageViewData(index);
         if (imageViewData != null) {
-            System.out.println(imageViewData[0] + " " + imageViewData[1]);
             Perspective newPerspective = m.getPerspective(index);
             setCurrentPerspective(index, newPerspective);
             // Vous devez vérifier si imageViewData a une longueur suffisante avant d'accéder à ses éléments
             if (imageViewData.length >= 4) {
-                newPerspective.getImageView().setTranslateX(imageViewData[2]);
-                newPerspective.getImageView().setTranslateY(imageViewData[3]);
+                // TODO This should be able to differentiate between a zoom and translation
+                // Main thing here is that we need to update the views with the new data from the controller
+                modifyTranslationPerspective(index, imageViewData, 0, 0);
             }
         }
     }
 
-    // Just needed to add some sort of initialization to the observers list
     public void setObservers() {
         this.observers = new ArrayList<>();
     }
@@ -186,7 +180,6 @@ public class ImageModel implements Subject, Serializable {
             }
         }
 
-        // Unsure about this respecting the observer pattern
         notifyObservers();
     }
 

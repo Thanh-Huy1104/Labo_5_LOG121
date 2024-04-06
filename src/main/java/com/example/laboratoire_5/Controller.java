@@ -5,13 +5,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.Image;
 import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -21,15 +16,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Controller implements Observer {
 
     @FXML
-    private MenuItem menubar_upluoad;
-
-    @FXML
-    private MenuItem menuitem_saveperspective1;
-
-    @FXML
-    private MenuItem menuitem_saveperspective2;
-
-    @FXML
     private ImageView perspective_1;
 
     @FXML
@@ -37,18 +23,6 @@ public class Controller implements Observer {
 
     @FXML
     private ImageView perspective_2;
-
-    @FXML
-    private Button redo_perspective1;
-
-    @FXML
-    private Button redo_perspective2;
-
-    @FXML
-    private Button undo_perspective1;
-
-    @FXML
-    private Button undo_perspective2;
 
     private ImageModel model;
 
@@ -62,17 +36,13 @@ public class Controller implements Observer {
 
     private Integer scrollCounter = 0;
 
-    public Controller() {}
-
     @FXML
     private void initialize() {
-
 
         // Créer les perspectives et les vues
         Perspective perspective1 = new Perspective(1, perspective_1);
         Perspective perspective2 = new Perspective(2, perspective_2);
         Perspective originalPerspective = new Perspective(3, original_image);
-
 
         // Créer le modèle et ajouter les perspectives
         this.model = new ImageModel(perspective1, perspective2);
@@ -81,7 +51,6 @@ public class Controller implements Observer {
         model.addPerspective(originalPerspective);
 
         //Création des caretakers
-
         careTakerPerspective1 = new CareTaker(model);
         careTakerPerspective2 = new CareTaker(model);
 
@@ -155,7 +124,7 @@ public class Controller implements Observer {
             imageView.setUserData(new double[]{event.getSceneX(), event.getSceneY(), imageView.getTranslateX(), imageView.getTranslateY()});
         });
 
-        imageView.setOnMouseDragged(event -> { // save in memento here? For initial state of the imageView before any translation?
+        imageView.setOnMouseDragged(event -> {
             double deltaX = event.getSceneX();
             double deltaY = event.getSceneY();
             double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
