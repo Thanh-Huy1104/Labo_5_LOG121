@@ -37,7 +37,6 @@ public class CommandManager {
         careTakers.put(perspectiveIndex, careTaker);
     }
 
-    // Why do we need a list of commands if this is how we execute commands?? Gotta check patron commande
     public void executeCommand(Command command, int index) {
         command.execute(index);
     }

@@ -19,6 +19,7 @@ public class Perspective implements Serializable {
         this.translationX = imageView.getTranslateX();
         this.translationY = imageView.getTranslateY();
         this.scaleX = imageView.getScaleX();
+        System.out.println("scale X : " + scaleX);
         this.scaleY = imageView.getScaleY();
     }
 
@@ -73,5 +74,18 @@ public class Perspective implements Serializable {
 
         setTranslationX(translateX);
         setTranslationY(translateY);
+    }
+
+    public void scale(boolean zoomIn, double zoomFactor) {
+        double scaleFactor = zoomIn ? (1.0 / zoomFactor) : zoomFactor;
+        System.out.println("scale X : " + scaleX);
+
+        // Calculate new scale factors
+        double newScaleX = getScaleX() * scaleFactor;
+        double newScaleY = getScaleY() * scaleFactor;
+
+        // Apply the new scale factors and translations
+        setScaleX(newScaleX);
+        setScaleY(newScaleY);
     }
 }

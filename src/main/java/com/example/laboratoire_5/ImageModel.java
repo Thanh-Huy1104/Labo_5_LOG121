@@ -105,35 +105,11 @@ public class ImageModel implements Subject, Serializable {
         observers.remove(observer);
     }
 
-    public void modifyScalePerspective(int index, boolean zoomIn, double zoomFactor, double mouseX, double mouseY) {
+    public void modifyScalePerspective(int index, boolean zoomIn, double zoomFactor) {
         Perspective perspective = getCurrentPerspective(index);
         if (perspective != null) {
-            double scaleFactor = zoomIn ? zoomFactor : (1.0 / zoomFactor);
 
-            // Get image dimensions and current scale factors
-            double imageWidth = perspective.getImageView().getFitWidth();
-            double imageHeight = perspective.getImageView().getFitHeight();
-            double currentScaleX = perspective.getScaleX();
-            double currentScaleY = perspective.getScaleY();
-
-            // Calculate new scale factors
-            double newScaleX = currentScaleX * scaleFactor;
-            double newScaleY = currentScaleY * scaleFactor;
-
-            // Calculate the offset from the mouse position to the image position
-            double offsetX = (mouseX - perspective.getImageView().getLayoutX()) / imageWidth;
-            double offsetY = (mouseY - perspective.getImageView().getLayoutY()) / imageHeight;
-
-            // Calculate the new translation to keep the mouse position stable
-            double deltaX = perspective.getImageView().getTranslateX() - offsetX * (newScaleX - currentScaleX) * imageWidth;
-            double deltaY = perspective.getImageView().getTranslateY() - offsetY * (newScaleY - currentScaleY) * imageHeight;
-
-            // Apply the new scale factors and translations
-            perspective.setScaleX(newScaleX);
-            perspective.setScaleY(newScaleY);
-            perspective.getImageView().setTranslateX(deltaX);
-            perspective.getImageView().setTranslateY(deltaY);
-
+            perspective.scale(zoomIn, zoomFactor);
             notifyObservers();
         }
     }
@@ -146,6 +122,7 @@ public class ImageModel implements Subject, Serializable {
     }
 
     public Memento saveToMemento(int index, double[] imageViewData) {
+        // I need to create the data here and then instanciate the memento with it
         Memento memento = new Memento(index, imageViewData);
         Perspective currentPerspective = getCurrentPerspective(index);
         memento.setPerspective(index, currentPerspective);
@@ -156,13 +133,12 @@ public class ImageModel implements Subject, Serializable {
         double[] imageViewData = m.getImageViewData(index);
         if (imageViewData != null) {
             Perspective newPerspective = m.getPerspective(index);
-            setCurrentPerspective(index, newPerspective);
             // Vous devez vérifier si imageViewData a une longueur suffisante avant d'accéder à ses éléments
             if (imageViewData.length >= 4) {
                 // TODO This should be able to differentiate between a zoom and translation
                 // Main thing here is that we need to update the views with the new data from the controller
                 newPerspective.translate(imageViewData, imageViewData[0], imageViewData[1]);
-                notifyObservers();
+                setCurrentPerspective(index, newPerspective);
             }
         }
     }

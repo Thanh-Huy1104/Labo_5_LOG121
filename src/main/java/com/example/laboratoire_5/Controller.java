@@ -164,9 +164,7 @@ public class Controller implements Observer {
         double zoomFactor = 1.2; // Facteur de zoom
         boolean zoomIn = deltaY < 0; // Si deltaY est négatif, c'est un zoom arrière, sinon c'est un zoom avant
 
-        double mouseX = event.getX();
-        double mouseY = event.getY();
-        ZoomCommand zoomCommand = new ZoomCommand(model, zoomFactor, zoomIn, mouseX, mouseY);
+        ZoomCommand zoomCommand = new ZoomCommand(model, zoomFactor, zoomIn);
         for (View view : views) {
             if (view instanceof PerspectiveView) {
                 if (view.getPerspective().getImageView().equals(imageView)) {
@@ -174,7 +172,7 @@ public class Controller implements Observer {
                     commandManager.executeCommand(zoomCommand, index);
 
                     // Mise à jour des données utilisateur avec les nouvelles informations de zoom
-                    double[] userData = new double[]{mouseX, mouseY, imageView.getScaleX(), imageView.getScaleY()};
+                    double[] userData = new double[]{imageView.getScaleX(), imageView.getScaleY()};
                     imageView.setUserData(userData);
                 }
             }
