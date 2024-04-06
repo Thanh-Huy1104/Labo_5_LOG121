@@ -161,7 +161,8 @@ public class ImageModel implements Subject, Serializable {
             if (imageViewData.length >= 4) {
                 // TODO This should be able to differentiate between a zoom and translation
                 // Main thing here is that we need to update the views with the new data from the controller
-                modifyTranslationPerspective(index, imageViewData, 0, 0);
+                newPerspective.translate(imageViewData, imageViewData[0], imageViewData[1]);
+                notifyObservers();
             }
         }
     }
