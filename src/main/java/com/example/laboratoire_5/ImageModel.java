@@ -1,17 +1,18 @@
 package com.example.laboratoire_5;
 
-import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImageModel implements Subject {
+public class ImageModel implements Subject, Serializable {
 
     private Image originalImage;
     private List<Perspective> perspectiveList;
     private Perspective perspective1;
     private Perspective perspective2;
-    private List<Observer> observers;
+    private transient List<Observer> observers;
 
     public ImageModel(Perspective perspective1, Perspective perspective2) {
         this.perspective1 = perspective1;
@@ -39,6 +40,10 @@ public class ImageModel implements Subject {
 
     public void addPerspective(Perspective perspective) {
         perspectiveList.add(perspective);
+    }
+
+    public List<Perspective> getPerspectiveList() {
+        return perspectiveList;
     }
 
     public void removePerspective(int index) {
@@ -93,7 +98,7 @@ public class ImageModel implements Subject {
 
     // Same function twice fix this
     public Perspective getPerspective(int index) {
-       return perspectiveList.get(index);
+        return perspectiveList.get(index);
     }
 
     public void attach(Observer observer) {
@@ -138,9 +143,6 @@ public class ImageModel implements Subject {
     }
 
 
-
-
-
     public void modifyTranslationPerspective(int index, double[] data, double deltaX, double deltaY) {
         Perspective perspective = getCurrentPerspective(index);
         perspective.translate(data, deltaX, deltaY);
@@ -167,4 +169,10 @@ public class ImageModel implements Subject {
             }
         }
     }
+
+    // Just needed to add some sort of initialization to the observers list
+    public void setObservers() {
+        this.observers = new ArrayList<>();
+    }
+
 }

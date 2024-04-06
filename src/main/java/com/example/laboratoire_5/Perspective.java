@@ -3,13 +3,15 @@ package com.example.laboratoire_5;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ScrollEvent;
 
-public class Perspective {
+import java.io.Serializable;
+
+public class Perspective implements Serializable {
     private double scaleX;
     private double scaleY;
     private double translationX;
     private double translationY;
     private int index;
-    private ImageView imageView;
+    private transient ImageView imageView;
 
     public Perspective(int index, ImageView imageView) {
         this.index = index;

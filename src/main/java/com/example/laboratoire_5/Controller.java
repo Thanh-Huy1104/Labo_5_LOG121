@@ -7,6 +7,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -67,7 +68,6 @@ public class Controller implements Observer {
     private void initialize() {
 
 
-
         // Créer les perspectives et les vues
         Perspective perspective1 = new Perspective(1, perspective_1);
         Perspective perspective2 = new Perspective(2, perspective_2);
@@ -82,8 +82,8 @@ public class Controller implements Observer {
 
         //Création des caretakers
 
-         careTakerPerspective1 = new CareTaker(model);
-         careTakerPerspective2 = new CareTaker(model);
+        careTakerPerspective1 = new CareTaker(model);
+        careTakerPerspective2 = new CareTaker(model);
 
 
         // Définir la perspective actuelle sur la première perspective
@@ -140,12 +140,12 @@ public class Controller implements Observer {
         perspective1.getImageView().setTranslateY(originalImageTranslateY);
 
         // Configurer le zoom et le déplacement pour les perspectives
-        setupZoomAndDrag(perspective_1,1);
-        setupZoomAndDrag(perspective_2,2);
+        setupZoomAndDrag(perspective_1, 1);
+        setupZoomAndDrag(perspective_2, 2);
     }
 
 
-    private void setupZoomAndDrag(ImageView imageView,int careTakerIndex) {
+    private void setupZoomAndDrag(ImageView imageView, int careTakerIndex) {
         CareTaker careTaker = CommandManager.getInstance().getCareTaker(careTakerIndex);
         AtomicBoolean isDragging = new AtomicBoolean(false);
         double dragThreshold = 5.0;
@@ -162,7 +162,7 @@ public class Controller implements Observer {
             if (distance > dragThreshold) {
                 isDragging.set(true);
             }
-            handleTranslate(imageView ,deltaX, deltaY);
+            handleTranslate(imageView, deltaX, deltaY);
         });
 
         imageView.setOnMouseReleased(event -> {
@@ -187,49 +187,49 @@ public class Controller implements Observer {
         this.views.add(view);
     }
 
-   @FXML
-   private void handleZoomPerspective(ScrollEvent event) {
-       ImageView imageView = (ImageView) event.getSource();
-       int index = 0;
-       double deltaY = event.getDeltaY();
-       double zoomFactor = 1.2; // Facteur de zoom
-       boolean zoomIn = deltaY < 0; // Si deltaY est négatif, c'est un zoom arrière, sinon c'est un zoom avant
+    @FXML
+    private void handleZoomPerspective(ScrollEvent event) {
+        ImageView imageView = (ImageView) event.getSource();
+        int index = 0;
+        double deltaY = event.getDeltaY();
+        double zoomFactor = 1.2; // Facteur de zoom
+        boolean zoomIn = deltaY < 0; // Si deltaY est négatif, c'est un zoom arrière, sinon c'est un zoom avant
 
-       double mouseX = event.getX();
-       double mouseY = event.getY();
-       ZoomCommand zoomCommand = new ZoomCommand(model, zoomFactor, zoomIn, mouseX, mouseY);
-       for (View view : views) {
-           if (view instanceof PerspectiveView) {
-               if (view.getPerspective().getImageView().equals(imageView)) {
-                   index = views.indexOf(view) + 1;
-                   commandManager.executeCommand(zoomCommand, index);
+        double mouseX = event.getX();
+        double mouseY = event.getY();
+        ZoomCommand zoomCommand = new ZoomCommand(model, zoomFactor, zoomIn, mouseX, mouseY);
+        for (View view : views) {
+            if (view instanceof PerspectiveView) {
+                if (view.getPerspective().getImageView().equals(imageView)) {
+                    index = views.indexOf(view) + 1;
+                    commandManager.executeCommand(zoomCommand, index);
 
-                   // Mise à jour des données utilisateur avec les nouvelles informations de zoom
-                   double[] userData = new double[]{mouseX, mouseY, imageView.getScaleX(), imageView.getScaleY()};
-                   imageView.setUserData(userData);
-               }
-           }
-       }
+                    // Mise à jour des données utilisateur avec les nouvelles informations de zoom
+                    double[] userData = new double[]{mouseX, mouseY, imageView.getScaleX(), imageView.getScaleY()};
+                    imageView.setUserData(userData);
+                }
+            }
+        }
 
-       scrollCounter++;
-       AtomicInteger newIndex = new AtomicInteger(index);
-       Thread th = new Thread(() -> {
-           try {
-               Thread.sleep(1000);
-               if (scrollCounter == 1) {
-                   System.out.println("zoom fini");
-                   CommandManager.getInstance().getCareTaker(newIndex.get()).savePerspective(newIndex.get(), (double[]) imageView.getUserData());
-                   System.out.println(newIndex.get());
-               }
+        scrollCounter++;
+        AtomicInteger newIndex = new AtomicInteger(index);
+        Thread th = new Thread(() -> {
+            try {
+                Thread.sleep(1000);
+                if (scrollCounter == 1) {
+                    System.out.println("zoom fini");
+                    CommandManager.getInstance().getCareTaker(newIndex.get()).savePerspective(newIndex.get(), (double[]) imageView.getUserData());
+                    System.out.println(newIndex.get());
+                }
 
-               scrollCounter--;
-           } catch (Exception e1) {
-               e1.printStackTrace();
-           }
-       });
-       th.setDaemon(true);
-       th.start();
-   }
+                scrollCounter--;
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        });
+        th.setDaemon(true);
+        th.start();
+    }
 
 
     private void handleTranslate(ImageView imageView, double deltaX, double deltaY) {
@@ -255,31 +255,36 @@ public class Controller implements Observer {
     }
 
     @FXML
-    void savePerspective1(ActionEvent event) {
-
+    void saveModel(ActionEvent event) {
+        ImageSerializer.serializeImageModel(this.model);
     }
 
     @FXML
-    void savePerspective2(ActionEvent event) {
+    void loadModel(ActionEvent event) {
+        ImageModel loadedModel = ImageSerializer.deserializeImageModel();
 
-    }
-
-    @FXML
-    void upload_image(ActionEvent event) {
-        FileChooser fileChooser = new FileChooser();
-
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Image files (*.png, *.jpg, *.gif)", "*.png", "*.jpg", "*.gif");
-        fileChooser.getExtensionFilters().add(extFilter);
-
-        Stage stage = (Stage) original_image.getScene().getWindow();
-        File file = fileChooser.showOpenDialog(stage);
-
-        if (file != null) {
-            Image image = new Image(file.toURI().toString());
-            original_image.setImage(image);
-            perspective_1.setImage(image);
-            perspective_2.setImage(image);
+        if (loadedModel != null) {
+            this.model = loadedModel;
+            updateViews(model);
         }
+    }
+
+    private void updateViews(ImageModel model) {
+        // Since observers are not serialized, we need to reattach them
+        model.setObservers();
+        model.attach(this);
+
+        // Since ImageViews are not serialized, we need to reassign them
+        for (Perspective perspective : model.getPerspectiveList()) {
+            if (perspective.getIndex() == 1) {
+                perspective.setImageView(perspective_1);
+            } else if (perspective.getIndex() == 2) {
+                perspective.setImageView(perspective_2);
+            }
+        }
+
+        // Unsure about this respecting the observer pattern
+        model.notifyObservers();
     }
 
     @Override
