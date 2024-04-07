@@ -6,11 +6,14 @@ import javafx.scene.input.ScrollEvent;
 import java.io.Serializable;
 
 public class Perspective implements Serializable {
+    private double oldScaleX;
+    private double oldScaleY;
     private double scaleX;
     private double scaleY;
     private double translationX;
     private double translationY;
     private int index;
+    private boolean zoomIn;
     private transient ImageView imageView;
 
     public Perspective(int index, ImageView imageView) {
@@ -65,6 +68,35 @@ public class Perspective implements Serializable {
         return index;
     }
 
+    public boolean isZoomIn() {
+        return zoomIn;
+    }
+
+    public void setZoomIn(boolean zoomIn) {
+        this.zoomIn = zoomIn;
+    }
+
+    public double getOldScaleX() {
+        return oldScaleX;
+    }
+
+    public double getOldScaleY() {
+        return oldScaleY;
+    }
+
+    public void setOldScaleX(double oldScaleX) {
+        this.oldScaleX = oldScaleX;
+    }
+
+    public void setOldScaleY(double oldScaleY) {
+        this.oldScaleY = oldScaleY;
+    }
+
+    public void updateScales() {
+        oldScaleX = scaleX;
+        oldScaleY = scaleY;
+    }
+
     public void translate(double[] data, double deltaX, double deltaY) {
         double translateX = data[2] + deltaX - data[0];
         double translateY = data[3] + deltaY - data[1];
@@ -76,16 +108,25 @@ public class Perspective implements Serializable {
         setTranslationY(translateY);
     }
 
-    public void scale(boolean zoomIn, double zoomFactor) {
-        double scaleFactor = zoomIn ? (1.0 / zoomFactor) : zoomFactor;
+    public void scale(boolean zoomIn) {
+        double scaleFactor = zoomIn ? (1.0 / Controller.ZOOM_FACTOR) : Controller.ZOOM_FACTOR;
         System.out.println("scale X : " + scaleX);
 
         // Calculate new scale factors
         double newScaleX = getScaleX() * scaleFactor;
         double newScaleY = getScaleY() * scaleFactor;
 
+        System.out.println("New scale X : " + newScaleX);
+
         // Apply the new scale factors and translations
         setScaleX(newScaleX);
         setScaleY(newScaleY);
+    }
+
+    public void scaleTo(double scaleX, double scaleY) {
+        System.out.println("Current scales : " + this.scaleX + " " + this.scaleY + "\tScales retrieved : " + scaleX + scaleY);
+        setScaleX(scaleX);
+        setScaleY(scaleY);
+        updateScales();
     }
 }

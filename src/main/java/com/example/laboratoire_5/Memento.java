@@ -1,34 +1,21 @@
 package com.example.laboratoire_5;
 
 public class Memento {
-    private Perspective historyPerspective1;
-    private Perspective historyPerspective2;
-
+    private String action;
     private double[] imageViewData1;
     private double[] imageViewData2;
+    private double[] scales1;
+    private double[] scales2;
 
-    public Memento(int index, double [] imageViewData){
+    public Memento(String action){
+        this.action = action;
+    }
+
+    public void setImageViewData(int index, double[] imageViewData) {
         if (index == 1) {
             this.imageViewData1 = imageViewData.clone();
         } else if (index == 2) {
             this.imageViewData2 = imageViewData.clone();
-        }
-    }
-
-    public Perspective getPerspective(int index) {
-        if (index == 1) {
-            return historyPerspective1;
-        } else if (index == 2) {
-            return historyPerspective2;
-        }
-        return null;
-    }
-
-    public void setPerspective(int index, Perspective newP) {
-        if (index == 1) {
-            historyPerspective1 = newP;
-        } else if (index == 2) {
-            historyPerspective2 = newP;
         }
     }
 
@@ -39,5 +26,28 @@ public class Memento {
             return imageViewData2;
         }
         return null;
+    }
+
+    public double[] getScales(int index) {
+        if (index == 1) {
+            return scales1;
+        } else if (index == 2) {
+            return scales2;
+        }
+        return null;
+    }
+
+    public void setScales(int index, double[] scales) {
+        if (index == 1) {
+            this.scales1 = scales;
+        } else if (index == 2) {
+            this.scales2 = scales;
+        }
+
+        System.out.println("ScaleX saved : " + scales[0] + " ScaleY saved : " + scales[1]);
+    }
+
+    public String getAction() {
+        return action;
     }
 }

@@ -14,6 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class Controller implements Observer {
+    public static final double ZOOM_FACTOR = 1.2;
 
     @FXML
     private ImageView perspective_1;
@@ -72,8 +73,12 @@ public class Controller implements Observer {
         this.commandManager.setImageModel(model);
         this.commandManager.setCareTaker(1, careTakerPerspective1);
         this.commandManager.setCareTaker(2, careTakerPerspective2);
-        careTakerPerspective1.savePerspective(1, new double[]{0, 0, 0, 0});
-        careTakerPerspective2.savePerspective(2, new double[]{0, 0, 0, 0});
+        perspective_1.setUserData(new double[]{0, 0, 0, 0});
+        perspective_2.setUserData(new double[]{0, 0, 0, 0});
+        careTakerPerspective1.savePerspective(1, "Translation");
+        careTakerPerspective2.savePerspective(2, "Translation");
+        perspective1.updateScales();
+        perspective2.updateScales();
 
         // Ajouter les vues à la liste de vues
         this.views = new ArrayList<>();
@@ -145,7 +150,7 @@ public class Controller implements Observer {
                     }
                 }
 
-                careTaker.savePerspective(index, (double[]) imageView.getUserData());
+                careTaker.savePerspective(index, "Translation");
             }
         });
 
@@ -161,19 +166,16 @@ public class Controller implements Observer {
         ImageView imageView = (ImageView) event.getSource();
         int index = 0;
         double deltaY = event.getDeltaY();
-        double zoomFactor = 1.2; // Facteur de zoom
         boolean zoomIn = deltaY < 0; // Si deltaY est négatif, c'est un zoom arrière, sinon c'est un zoom avant
 
-        ZoomCommand zoomCommand = new ZoomCommand(model, zoomFactor, zoomIn);
+        ZoomCommand zoomCommand = new ZoomCommand(model, zoomIn);
         for (View view : views) {
             if (view instanceof PerspectiveView) {
                 if (view.getPerspective().getImageView().equals(imageView)) {
                     index = views.indexOf(view) + 1;
                     commandManager.executeCommand(zoomCommand, index);
 
-                    // Mise à jour des données utilisateur avec les nouvelles informations de zoom
-                    double[] userData = new double[]{imageView.getScaleX(), imageView.getScaleY()};
-                    imageView.setUserData(userData);
+                    view.getPerspective().setZoomIn(zoomIn);
                 }
             }
         }
@@ -182,10 +184,16 @@ public class Controller implements Observer {
         AtomicInteger newIndex = new AtomicInteger(index);
         Thread th = new Thread(() -> {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(500);
                 if (scrollCounter == 1) {
                     System.out.println("zoom fini");
-                    CommandManager.getInstance().getCareTaker(newIndex.get()).savePerspective(newIndex.get(), (double[]) imageView.getUserData());
+
+                    CommandManager.getInstance().getCareTaker(newIndex.get()).savePerspective(newIndex.get(), "Zoom");
+
+                    //Save old scales
+                    Perspective perspective = model.getCurrentPerspective(newIndex.get());
+                    perspective.updateScales();
+
                     System.out.println(newIndex.get());
                 }
 

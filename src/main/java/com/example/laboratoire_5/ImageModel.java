@@ -105,11 +105,11 @@ public class ImageModel implements Subject, Serializable {
         observers.remove(observer);
     }
 
-    public void modifyScalePerspective(int index, boolean zoomIn, double zoomFactor) {
+    public void modifyScalePerspective(int index, boolean zoomIn) {
         Perspective perspective = getCurrentPerspective(index);
         if (perspective != null) {
 
-            perspective.scale(zoomIn, zoomFactor);
+            perspective.scale(zoomIn);
             notifyObservers();
         }
     }
@@ -121,25 +121,40 @@ public class ImageModel implements Subject, Serializable {
         notifyObservers();
     }
 
-    public Memento saveToMemento(int index, double[] imageViewData) {
-        // I need to create the data here and then instanciate the memento with it
-        Memento memento = new Memento(index, imageViewData);
-        Perspective currentPerspective = getCurrentPerspective(index);
-        memento.setPerspective(index, currentPerspective);
+    public Memento saveToMemento(int index, String action) {
+        
+        Memento memento = new Memento(action);
+        Perspective perspective = getCurrentPerspective(index);
+        
+        if (action.equals("Translation")) {
+            double[] imageViewData = (double[]) perspective.getImageView().getUserData();
+
+            memento.setImageViewData(index, imageViewData);
+        } else if (action.equals("Zoom")) {
+            double[] scales = new double[]{perspective.getOldScaleX(), perspective.getOldScaleY()};
+            memento.setScales(index, scales);
+        }
+
         return memento;
     }
 
     public void restoreFromMemento(Memento m, int index) {
-        double[] imageViewData = m.getImageViewData(index);
-        if (imageViewData != null) {
-            Perspective newPerspective = m.getPerspective(index);
-            // Vous devez vérifier si imageViewData a une longueur suffisante avant d'accéder à ses éléments
-            if (imageViewData.length >= 4) {
-                // TODO This should be able to differentiate between a zoom and translation
-                // Main thing here is that we need to update the views with the new data from the controller
-                newPerspective.translate(imageViewData, imageViewData[0], imageViewData[1]);
-                setCurrentPerspective(index, newPerspective);
+        Perspective perspective = getCurrentPerspective(index);
+
+        if (m.getAction().equals("Translation")) {
+            double[] imageViewData = m.getImageViewData(index);
+            if (imageViewData != null) {
+                // Vous devez vérifier si imageViewData a une longueur suffisante avant d'accéder à ses éléments
+                if (imageViewData.length >= 4) {
+                    // Main thing here is that we need to update the views with the new data from the controller
+                    perspective.translate(imageViewData, imageViewData[0], imageViewData[1]);
+                    notifyObservers();
+                }
             }
+        } else if (m.getAction().equals("Zoom")) {
+            double[] scales = m.getScales(index);
+            perspective.scaleTo(scales[0], scales[1]);
+            notifyObservers();
         }
     }
 

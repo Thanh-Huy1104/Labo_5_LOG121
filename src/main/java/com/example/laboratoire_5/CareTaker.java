@@ -22,7 +22,7 @@ public class CareTaker {
        return null;
     }
 
-    public void savePerspective(int index, double[] imageViewData) {
-        mementos.push(model.saveToMemento(index, imageViewData));
+    public void savePerspective(int index, String action) {
+        mementos.push(model.saveToMemento(index, action));
     }
 }
