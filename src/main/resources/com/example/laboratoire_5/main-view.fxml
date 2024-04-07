@@ -4,34 +4,31 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.control.ScrollPane?>
-<AnchorPane prefHeight="774.0" prefWidth="1022.0" xmlns="http://javafx.com/javafx/21"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.laboratoire_5.Controller">
+<AnchorPane prefHeight="774.0" prefWidth="1022.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.laboratoire_5.Controller">
     <children>
         <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="1022.0">
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
-                        <MenuItem fx:id="menuitem_saveperspective1" mnemonicParsing="false" onAction="#saveModel"
-                                  text="Save model"/>
-                        <MenuItem fx:id="menuitem_saveperspective2" mnemonicParsing="false" onAction="#loadModel"
-                                  text="Load model"/>
+                        <MenuItem fx:id="menuitem_saveperspective1" mnemonicParsing="false" onAction="#saveModel" text="Save model" />
+                        <MenuItem fx:id="menuitem_saveperspective2" mnemonicParsing="false" onAction="#loadModel" text="Load model" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edit">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Delete"/>
+                        <MenuItem mnemonicParsing="false" text="Delete" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="About"/>
+                        <MenuItem mnemonicParsing="false" text="About" />
                     </items>
                 </Menu>
             </menus>
@@ -39,10 +36,9 @@
 
         <!-- Container for the original image centered at the top -->
         <HBox alignment="CENTER" layoutY="25.0" prefHeight="200.0" prefWidth="1022.0">
-            <ImageView fx:id="original_image" fitHeight="150.0" fitWidth="330.0" pickOnBounds="true"
-                       preserveRatio="true">
+            <ImageView fx:id="original_image" fitHeight="150.0" fitWidth="330.0" pickOnBounds="true" preserveRatio="true">
                 <image>
-                    <Image url="@shrec.jpg"/>
+                    <Image url="@shrec.jpg" />
                 </image>
             </ImageView>
         </HBox>
@@ -50,17 +46,14 @@
         <!-- Container for Perspective 1 with clipping and containment, spanning half the screen -->
         <VBox alignment="CENTER" layoutX="1.0" layoutY="125.0" prefHeight="700.0" prefWidth="500.0" spacing="10">
             <HBox alignment="CENTER" spacing="10">
-                <Button fx:id="undo_perspective1" mnemonicParsing="false" onAction="#undoPerspective1" text="Undo"/>
-                <Button fx:id="redo_perspective1" mnemonicParsing="false" text="Redo"/>
+                <Button fx:id="undo_perspective1" mnemonicParsing="false" onAction="#undoPerspective1" text="Undo" />
+                <Button fx:id="redo_perspective1" mnemonicParsing="false" onAction="#redoPerspective1" text="Redo" />
             </HBox>
-            <ScrollPane fx:id="scrollPane1" layoutY="27.0" prefHeight="500.0" prefWidth="500.0" fitToWidth="true" fitToHeight="true"
-                        cacheHint="SCALE">
+            <ScrollPane fx:id="scrollPane1" cacheHint="SCALE" fitToHeight="true" fitToWidth="true" layoutY="27.0" prefHeight="500.0" prefWidth="500.0">
 
-                <ImageView fx:id="perspective_1" fitHeight="300.0" fitWidth="330.0"
-                           onScroll="#handleZoomPerspective" pickOnBounds="true" preserveRatio="true"
-                           cacheHint="SCALE">
+                <ImageView fx:id="perspective_1" cacheHint="SCALE" fitHeight="300.0" fitWidth="330.0" onScroll="#handleZoomPerspective" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@shrec.jpg"/>
+                        <Image url="@shrec.jpg" />
                     </image>
                 </ImageView>
 
@@ -70,16 +63,14 @@
         <!-- Container for Perspective 2 with clipping and containment, spanning half the screen -->
         <VBox alignment="CENTER" layoutX="520.0" layoutY="125.0" prefHeight="700.0" prefWidth="500.0" spacing="10">
             <HBox alignment="CENTER" spacing="10">
-                <Button fx:id="undo_perspective2" mnemonicParsing="false" onAction="#undoPerspective2" text="Undo"/>
-                <Button fx:id="redo_perspective2" mnemonicParsing="false" text="Redo"/>
+                <Button fx:id="undo_perspective2" mnemonicParsing="false" onAction="#undoPerspective2" text="Undo" />
+                <Button fx:id="redo_perspective2" mnemonicParsing="false" onAction="#redoPerspective2" text="Redo" />
             </HBox>
-            <ScrollPane fx:id="scrollPane2" layoutX="520.0" layoutY="27.0" prefHeight="500.0" prefWidth="500.0" fitToWidth="true"
-                        fitToHeight="true" cacheHint="SCALE">
+            <ScrollPane fx:id="scrollPane2" cacheHint="SCALE" fitToHeight="true" fitToWidth="true" layoutX="520.0" layoutY="27.0" prefHeight="500.0" prefWidth="500.0">
 
-                <ImageView fx:id="perspective_2" fitHeight="300.0" fitWidth="330.0" onScroll="#handleZoomPerspective"
-                           pickOnBounds="true" preserveRatio="true" cacheHint="SCALE">
+                <ImageView fx:id="perspective_2" cacheHint="SCALE" fitHeight="300.0" fitWidth="330.0" onScroll="#handleZoomPerspective" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@shrec.jpg"/>
+                        <Image url="@shrec.jpg" />
                     </image>
                 </ImageView>
 

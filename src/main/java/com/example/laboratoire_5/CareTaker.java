@@ -7,20 +7,35 @@ import java.util.Stack;
 
 public class CareTaker {
     private Stack<Memento> mementos;
+    private Stack<Memento> redoMementos;
     private ImageModel model;
 
     public CareTaker(ImageModel model) {
         mementos = new Stack<>();
+        redoMementos = new Stack<>();
         this.model = model;
     }
 
     public void getLastMemento(int index) {
        if (!mementos.isEmpty()) {
-           model.restoreFromMemento(mementos.pop(), index);
+           Memento memento = mementos.pop();
+           model.restoreFromMemento(memento, index);
+           redoMementos.push(memento);
        }
     }
 
     public void savePerspective(int index, String action) {
-        mementos.push(model.saveToMemento(index, action));
+        Memento memento = model.saveToMemento(index, action);
+        mementos.push(memento);
+        redoMementos.clear();
+    }
+
+    public void redoLastMemento(int index) {
+        if (!redoMementos.isEmpty()) {
+            Memento redoMemento = redoMementos.pop();
+            model.restoreFromMemento(redoMemento, index);
+            mementos.push(redoMemento);
+        }
+        else System.out.println("no momento for redo");
     }
 }

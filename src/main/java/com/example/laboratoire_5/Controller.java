@@ -225,6 +225,24 @@ public class Controller implements Observer {
         undo(2);
     }
 
+
+    @FXML
+    void redoPerspective1(ActionEvent event) {
+        redo(1);
+    }
+
+    @FXML
+    void redoPerspective2(ActionEvent event) {
+        redo(2);
+    }
+
+    public void redo(int index) {
+        CareTaker careTaker = careTakers.get(index);
+        if (careTaker != null) {
+            careTaker.redoLastMemento(index);
+        }
+    }
+
     public void undo(int index) {
         CareTaker careTaker = careTakers.get(index);
         if (careTaker != null) {
