@@ -121,6 +121,23 @@ public class Perspective implements Serializable {
         // Apply the new scale factors and translations
         setScaleX(newScaleX);
         setScaleY(newScaleY);
+
+       /* double imageWidth = getImageView().getBoundsInLocal().getWidth();
+        double imageHeight = getImageView().getBoundsInLocal().getHeight();
+
+        double mouseXRatio = Controller.getMouseX() / imageWidth;
+        double mouseYRatio = Controller.getMouseY() / imageHeight;
+
+        // new translation to keep the mouse position intact
+        double newTranslateX = getTranslationX() - (mouseXRatio * (newScaleX - getScaleX()) * imageHeight);
+        double newTranslateY = getTranslationY() - (mouseYRatio * (newScaleY - getScaleY()) * imageWidth);
+
+        // Apply the new translation
+        setTranslationX(newTranslateX);
+        setTranslationY(newTranslateY);
+
+        */
+
     }
 
     public void scaleTo(double scaleX, double scaleY) {
