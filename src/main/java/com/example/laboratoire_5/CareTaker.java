@@ -14,12 +14,10 @@ public class CareTaker {
         this.model = model;
     }
 
-    //public Perspective get(int index){return historyPerspective.get(index)}
-    public Memento getLastMemento() {
+    public void getLastMemento(int index) {
        if (!mementos.isEmpty()) {
-           return mementos.pop();
+           model.restoreFromMemento(mementos.pop(), index);
        }
-       return null;
     }
 
     public void savePerspective(int index, String action) {

@@ -8,7 +8,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.ScrollEvent;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -31,9 +33,7 @@ public class Controller implements Observer {
 
     private List<View> views;
 
-    private CareTaker careTakerPerspective1;
-
-    private CareTaker careTakerPerspective2;
+    private Map<Integer, CareTaker> careTakers;
 
     private Integer scrollCounter = 0;
 
@@ -52,9 +52,11 @@ public class Controller implements Observer {
         model.addPerspective(originalPerspective);
 
         //Création des caretakers
-        careTakerPerspective1 = new CareTaker(model);
-        careTakerPerspective2 = new CareTaker(model);
-
+        CareTaker careTakerPerspective1 = new CareTaker(model);
+        CareTaker careTakerPerspective2 = new CareTaker(model);
+        careTakers = new HashMap<>();
+        careTakers.put(1, careTakerPerspective1);
+        careTakers.put(2, careTakerPerspective2);
 
         // Définir la perspective actuelle sur la première perspective
         model.setCurrentPerspective(1, perspective1);
@@ -70,9 +72,6 @@ public class Controller implements Observer {
 
         // Configurer le gestionnaire de commandes
         this.commandManager = CommandManager.getInstance();
-        this.commandManager.setImageModel(model);
-        this.commandManager.setCareTaker(1, careTakerPerspective1);
-        this.commandManager.setCareTaker(2, careTakerPerspective2);
         perspective_1.setUserData(new double[]{0, 0, 0, 0});
         perspective_2.setUserData(new double[]{0, 0, 0, 0});
         careTakerPerspective1.savePerspective(1, "Translation");
@@ -114,13 +113,12 @@ public class Controller implements Observer {
 //        perspective1.getImageView().setTranslateY(originalImageTranslateY);
 
         // Configurer le zoom et le déplacement pour les perspectives
-        setupZoomAndDrag(perspective_1, 1);
-        setupZoomAndDrag(perspective_2, 2);
+        setupZoomAndDrag(perspective_1);
+        setupZoomAndDrag(perspective_2);
     }
 
 
-    private void setupZoomAndDrag(ImageView imageView, int careTakerIndex) {
-        CareTaker careTaker = CommandManager.getInstance().getCareTaker(careTakerIndex);
+    private void setupZoomAndDrag(ImageView imageView) {
         AtomicBoolean isDragging = new AtomicBoolean(false);
         double dragThreshold = 5.0;
 
@@ -150,7 +148,7 @@ public class Controller implements Observer {
                     }
                 }
 
-                careTaker.savePerspective(index, "Translation");
+                careTakers.get(index).savePerspective(index, "Translation");
             }
         });
 
@@ -169,11 +167,12 @@ public class Controller implements Observer {
         boolean zoomIn = deltaY < 0; // Si deltaY est négatif, c'est un zoom arrière, sinon c'est un zoom avant
 
         ZoomCommand zoomCommand = new ZoomCommand(model, zoomIn);
+        commandManager.setCommand(zoomCommand);
         for (View view : views) {
             if (view instanceof PerspectiveView) {
                 if (view.getPerspective().getImageView().equals(imageView)) {
                     index = views.indexOf(view) + 1;
-                    commandManager.executeCommand(zoomCommand, index);
+                    commandManager.executeCommand(index);
 
                     view.getPerspective().setZoomIn(zoomIn);
                 }
@@ -186,15 +185,11 @@ public class Controller implements Observer {
             try {
                 Thread.sleep(500);
                 if (scrollCounter == 1) {
-                    System.out.println("zoom fini");
-
-                    CommandManager.getInstance().getCareTaker(newIndex.get()).savePerspective(newIndex.get(), "Zoom");
+                    careTakers.get(newIndex.get()).savePerspective(newIndex.get(), "Zoom");
 
                     //Save old scales
                     Perspective perspective = model.getCurrentPerspective(newIndex.get());
                     perspective.updateScales();
-
-                    System.out.println(newIndex.get());
                 }
 
                 scrollCounter--;
@@ -210,10 +205,11 @@ public class Controller implements Observer {
     private void handleTranslate(ImageView imageView, double deltaX, double deltaY) {
         double[] data = (double[]) imageView.getUserData();
         TranslationCommand translateCommand = new TranslationCommand(model, deltaX, deltaY, data);
+        commandManager.setCommand(translateCommand);
         for (View view : views) {
             if (view instanceof PerspectiveView) {
                 if (view.getPerspective().getImageView().equals(imageView)) {
-                    commandManager.executeCommand(translateCommand, views.indexOf(view) + 1);
+                    commandManager.executeCommand(views.indexOf(view) + 1);
                 }
             }
         }
@@ -221,13 +217,20 @@ public class Controller implements Observer {
 
     @FXML
     void undoPerspective1() {
-        commandManager.undo(1);
+        undo(1);
     }
 
     @FXML
     void undoPerspective2() {
-        commandManager.undo(2);
+        undo(2);
     }
+
+    public void undo(int index) {
+        CareTaker careTaker = careTakers.get(index);
+        if (careTaker != null) {
+            careTaker.getLastMemento(index);
+        }
+    };
 
     @FXML
     void saveModel(ActionEvent event) {

@@ -43,8 +43,6 @@ public class Memento {
         } else if (index == 2) {
             this.scales2 = scales;
         }
-
-        System.out.println("ScaleX saved : " + scales[0] + " ScaleY saved : " + scales[1]);
     }
 
     public String getAction() {
