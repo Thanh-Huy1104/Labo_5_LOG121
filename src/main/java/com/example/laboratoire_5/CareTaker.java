@@ -21,11 +21,13 @@ public class CareTaker {
            Memento memento = mementos.pop();
            model.restoreFromMemento(memento, index);
            redoMementos.push(memento);
+           System.out.println("Undo momento : "+memento);
        }
     }
 
     public void savePerspective(int index, String action) {
         Memento memento = model.saveToMemento(index, action);
+        System.out.println("saved moment : "+memento);
         mementos.push(memento);
         redoMementos.clear();
     }
@@ -35,6 +37,7 @@ public class CareTaker {
             Memento redoMemento = redoMementos.pop();
             model.restoreFromMemento(redoMemento, index);
             mementos.push(redoMemento);
+            System.out.println("Redo momento : "+redoMemento);
         }
         else System.out.println("no momento for redo");
     }

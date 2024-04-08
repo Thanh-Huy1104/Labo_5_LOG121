@@ -101,8 +101,9 @@ public class Perspective implements Serializable {
         double translateX = data[2] + deltaX - data[0];
         double translateY = data[3] + deltaY - data[1];
 
-        translateX = Math.max(Math.min(translateX, 603 - imageView.getFitWidth()), 0);
-        translateY = Math.max(Math.min(translateY, 497 - imageView.getFitHeight()), 0);
+        //ces deux lignes de codes sont pour la limite de translation si on en a besoin.
+        //translateX = Math.max(Math.min(translateX, 603 - imageView.getFitWidth()), 0);
+        //translateY = Math.max(Math.min(translateY, 497 - imageView.getFitHeight()), 0);
 
         setTranslationX(translateX);
         setTranslationY(translateY);
@@ -122,23 +123,9 @@ public class Perspective implements Serializable {
         setScaleX(newScaleX);
         setScaleY(newScaleY);
 
-       /* double imageWidth = getImageView().getBoundsInLocal().getWidth();
-        double imageHeight = getImageView().getBoundsInLocal().getHeight();
-
-        double mouseXRatio = Controller.getMouseX() / imageWidth;
-        double mouseYRatio = Controller.getMouseY() / imageHeight;
-
-        // new translation to keep the mouse position intact
-        double newTranslateX = getTranslationX() - (mouseXRatio * (newScaleX - getScaleX()) * imageHeight);
-        double newTranslateY = getTranslationY() - (mouseYRatio * (newScaleY - getScaleY()) * imageWidth);
-
-        // Apply the new translation
-        setTranslationX(newTranslateX);
-        setTranslationY(newTranslateY);
-
-        */
-
     }
+
+
 
     public void scaleTo(double scaleX, double scaleY) {
         System.out.println("Current scales : " + this.scaleX + " " + this.scaleY + "\tScales retrieved : " + scaleX + scaleY);
