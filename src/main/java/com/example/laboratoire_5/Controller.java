@@ -282,7 +282,9 @@ public class Controller implements Observer {
         careTakers.put(2, careTakerPerspective2);
         perspective_1.setUserData(new double[]{0, 0, perspective_1.getTranslateX(), perspective_1.getTranslateY()});
         perspective_2.setUserData(new double[]{0, 0, perspective_2.getTranslateX(), perspective_2.getTranslateY()});
-
+        perspective_1.setImage(model.getOriginalImage());
+        perspective_2.setImage(model.getOriginalImage());
+        original_image.setImage(model.getOriginalImage());
         model.updateModel(perspective_1, perspective_2);
     }
 
@@ -308,6 +310,7 @@ public class Controller implements Observer {
             original_image.setImage(image);
             perspective_1.setImage(image);
             perspective_2.setImage(image);
+            model.setOriginalImage(image);
         }
     }
 }
