@@ -2,13 +2,11 @@ package com.example.laboratoire_5;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ImageModel implements Subject, Serializable {
-
     private transient Image originalImage;
     private String imagePath;
     private List<Perspective> perspectiveList;
@@ -24,7 +22,6 @@ public class ImageModel implements Subject, Serializable {
         this.imagePath = null;
     }
 
-
     public ImageModel() {
         this.originalImage = null; // Vous devez obtenir l'image d'une autre manière, car elle n'est pas fournie ici
         this.perspectiveList = new ArrayList<>(); // Initialisez la liste
@@ -33,30 +30,8 @@ public class ImageModel implements Subject, Serializable {
         this.observers = new ArrayList<>(); // Assurez-vous d'initialiser cette liste également
     }
 
-    public void setOriginalImage(Image originalImage) {
-        this.originalImage = originalImage;
-    }
-
     public void addPerspective(Perspective perspective) {
         perspectiveList.add(perspective);
-    }
-
-    public List<Perspective> getPerspectiveList() {
-        return perspectiveList;
-    }
-
-    public void removePerspective(int index) {
-        Perspective perspectiveToRemove = null;
-
-        for (Perspective perspective : perspectiveList) {
-            if (perspective.getIndex() == index) {
-                perspectiveToRemove = perspective;
-            }
-        }
-
-        if (perspectiveToRemove != null) {
-            perspectiveList.remove(perspectiveToRemove);
-        }
     }
 
     public Perspective getCurrentPerspective(int index) {
@@ -69,23 +44,12 @@ public class ImageModel implements Subject, Serializable {
         return null;
     }
 
-    public int getPerspectiveIndex(Perspective perspective) {
-        for (int i = 0; i < perspectiveList.size(); i++) {
-            if (perspectiveList.get(i) == perspective) {
-                return i + 1;
-            }
-        }
-        return -1;
-    }
-
-
     public void setCurrentPerspective(int index, Perspective newP) {
         for (Perspective perspective : perspectiveList) {
             if (perspective.getIndex() == index) {
                 perspective = newP;
             }
         }
-
         notifyObservers();
     }
 
@@ -111,7 +75,6 @@ public class ImageModel implements Subject, Serializable {
             notifyObservers();
         }
     }
-
 
     public void modifyTranslationPerspective(int index, double[] data, double deltaX, double deltaY) {
         Perspective perspective = getCurrentPerspective(index);
@@ -174,6 +137,7 @@ public class ImageModel implements Subject, Serializable {
 
         notifyObservers();
     }
+
     public String getImagePath() {
         return imagePath;
     }
@@ -181,13 +145,6 @@ public class ImageModel implements Subject, Serializable {
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
         this.originalImage = new Image(imagePath); // Reload the image from the path
-    }
-
-    public Image getOriginalImage() {
-        if (originalImage == null && imagePath != null) {
-            originalImage = new Image(imagePath);
-        }
-        return originalImage;
     }
 
     public void setOriginalImage(Image originalImage, String imagePath) {

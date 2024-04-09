@@ -2,14 +2,11 @@ package com.example.laboratoire_5;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ScrollEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-
 
 public class Controller implements Observer {
     public static final double ZOOM_FACTOR = 1.2;
@@ -32,18 +28,13 @@ public class Controller implements Observer {
     private ImageView perspective_2;
 
     private ImageModel model;
-
     private CommandManager commandManager;
-
     private List<View> views;
-
     private Map<Integer, CareTaker> careTakers;
-
     private Integer scrollCounter = 0;
 
     @FXML
     private void initialize() {
-
         // Créer les perspectives et les vues
         Perspective perspective1 = new Perspective(1, perspective_1);
         Perspective perspective2 = new Perspective(2, perspective_2);
@@ -88,42 +79,15 @@ public class Controller implements Observer {
         addView(perspectiveView1);
         addView(perspectiveView2);
         addView(originalView);
+
         model.setImagePath(original_image.getImage().getUrl());
 
-        // Initialiser la première perspective à la position et à l'échelle d'origine
-        double originalImageWidth = original_image.getImage().getWidth();
-        double originalImageHeight = original_image.getImage().getHeight();
-        double originalImageScale = 1.0; // L'échelle initiale est 1.0
-        double originalImageTranslateX = 0.0; // La translation initiale est 0.0
-        double originalImageTranslateY = 0.0; // La translation initiale est 0.0
-
-        // Mettre à jour les valeurs d'échelle et de translation si l'image d'origine existe
-        if (originalImageWidth > 0 && originalImageHeight > 0) {
-            // Calculer l'échelle pour que l'image occupe toute la taille de l'ImageView
-            double viewWidth = perspective_1.getFitWidth();
-            double viewHeight = perspective_1.getFitHeight();
-            double scaleX = viewWidth / originalImageWidth;
-            double scaleY = viewHeight / originalImageHeight;
-            originalImageScale = Math.min(scaleX, scaleY); // Utiliser l'échelle minimale
-
-            // Centrer l'image dans l'ImageView
-            originalImageTranslateX = (viewWidth - originalImageWidth * originalImageScale) / 2;
-            originalImageTranslateY = (viewHeight - originalImageHeight * originalImageScale) / 2;
-        }
-
-        // Définir l'échelle et la translation pour la première perspective
-//        perspective1.setScaleX(originalImageScale);
-//        perspective1.setScaleY(originalImageScale);
-//        perspective1.getImageView().setTranslateX(originalImageTranslateX);
-//        perspective1.getImageView().setTranslateY(originalImageTranslateY);
-
         // Configurer le zoom et le déplacement pour les perspectives
-        setupZoomAndDrag(perspective_1);
-        setupZoomAndDrag(perspective_2);
+        setupDrag(perspective_1);
+        setupDrag(perspective_2);
     }
 
-
-    private void setupZoomAndDrag(ImageView imageView) {
+    private void setupDrag(ImageView imageView) {
         AtomicBoolean isDragging = new AtomicBoolean(false);
         double dragThreshold = 5.0;
 
@@ -154,10 +118,11 @@ public class Controller implements Observer {
                 }
 
                 careTakers.get(index).savePerspective(index, "Translation");
+
+                imageView.setUserData(new double[]{event.getSceneX(), event.getSceneY(), imageView.getTranslateX(), imageView.getTranslateY()});
+                careTakers.get(index).saveFirstRedoPerspective(index, "Translation");
             }
         });
-
-
     }
 
     public void addView(View view) {
@@ -195,6 +160,8 @@ public class Controller implements Observer {
                     //Save old scales
                     Perspective perspective = model.getCurrentPerspective(newIndex.get());
                     perspective.updateScales();
+
+                    careTakers.get(newIndex.get()).saveFirstRedoPerspective(newIndex.get(), "Zoom");
                 }
 
                 scrollCounter--;
@@ -205,7 +172,6 @@ public class Controller implements Observer {
         th.setDaemon(true);
         th.start();
     }
-
 
     private void handleTranslate(ImageView imageView, double deltaX, double deltaY) {
         double[] data = (double[]) imageView.getUserData();
@@ -229,7 +195,6 @@ public class Controller implements Observer {
     void undoPerspective2() {
         undo(2);
     }
-
 
     @FXML
     void redoPerspective1(ActionEvent event) {
@@ -255,22 +220,18 @@ public class Controller implements Observer {
         }
     }
 
-    ;
-
     @FXML
-    void saveModel(ActionEvent event) {
-        System.out.println("Saving model23" + model.getImagePath());
+    void saveModel() {
         ImageSerializer.serializeImageModel(this.model);
     }
 
     @FXML
-    void loadModel(ActionEvent event) {
+    void loadModel() {
         ImageModel loadedModel = ImageSerializer.deserializeImageModel();
 
         if (loadedModel != null) {
             this.model = loadedModel;
             restoreModel(model);
-            System.out.println("Loaded model" + model.getImagePath());
         }
     }
 
@@ -287,7 +248,6 @@ public class Controller implements Observer {
         careTakers.put(2, careTakerPerspective2);
         perspective_1.setUserData(new double[]{0, 0, perspective_1.getTranslateX(), perspective_1.getTranslateY()});
         perspective_2.setUserData(new double[]{0, 0, perspective_2.getTranslateX(), perspective_2.getTranslateY()});
-        System.out.println("Loaded model" + model.getImagePath());
         Image image = new Image(model.getImagePath());
 
         perspective_1.setImage(image);
@@ -305,7 +265,7 @@ public class Controller implements Observer {
     }
 
     @FXML
-    void upload_image(ActionEvent event) {
+    void upload_image() {
         FileChooser fileChooser = new FileChooser();
 
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Image files (*.png, *.jpg, *.gif)", "*.png", "*.jpg", "*.gif");

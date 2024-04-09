@@ -8,7 +8,6 @@ public class ZoomCommand implements Command {
         this.model = model;
         this.zoomIn = zoomIn;
     }
-
     @Override
     public void execute(int index) {
         model.modifyScalePerspective(index, zoomIn);

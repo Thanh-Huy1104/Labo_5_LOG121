@@ -1,8 +1,6 @@
 package com.example.laboratoire_5;
 
 import javafx.scene.image.ImageView;
-import javafx.scene.input.ScrollEvent;
-
 import java.io.Serializable;
 
 public class Perspective implements Serializable {
@@ -22,7 +20,6 @@ public class Perspective implements Serializable {
         this.translationX = imageView.getTranslateX();
         this.translationY = imageView.getTranslateY();
         this.scaleX = imageView.getScaleX();
-        System.out.println("scale X : " + scaleX);
         this.scaleY = imageView.getScaleY();
     }
 
@@ -68,10 +65,6 @@ public class Perspective implements Serializable {
         return index;
     }
 
-    public boolean isZoomIn() {
-        return zoomIn;
-    }
-
     public void setZoomIn(boolean zoomIn) {
         this.zoomIn = zoomIn;
     }
@@ -82,14 +75,6 @@ public class Perspective implements Serializable {
 
     public double getOldScaleY() {
         return oldScaleY;
-    }
-
-    public void setOldScaleX(double oldScaleX) {
-        this.oldScaleX = oldScaleX;
-    }
-
-    public void setOldScaleY(double oldScaleY) {
-        this.oldScaleY = oldScaleY;
     }
 
     public void updateScales() {
@@ -113,24 +98,17 @@ public class Perspective implements Serializable {
 
     public void scale(boolean zoomIn) {
         double scaleFactor = zoomIn ? (1.0 / Controller.ZOOM_FACTOR) : Controller.ZOOM_FACTOR;
-        System.out.println("scale X : " + scaleX);
 
         // Calculate new scale factors
         double newScaleX = getScaleX() * scaleFactor;
         double newScaleY = getScaleY() * scaleFactor;
 
-        System.out.println("New scale X : " + newScaleX);
-
         // Apply the new scale factors and translations
         setScaleX(newScaleX);
         setScaleY(newScaleY);
-
     }
 
-
-
     public void scaleTo(double scaleX, double scaleY) {
-        System.out.println("Current scales : " + this.scaleX + " " + this.scaleY + "\tScales retrieved : " + scaleX + scaleY);
         setScaleX(scaleX);
         setScaleY(scaleY);
         updateScales();
