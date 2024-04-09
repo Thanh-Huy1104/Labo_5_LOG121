@@ -102,8 +102,10 @@ public class Perspective implements Serializable {
         double translateY = data[3] + deltaY - data[1];
 
         //ces deux lignes de codes sont pour la limite de translation si on en a besoin.
-        //translateX = Math.max(Math.min(translateX, 603 - imageView.getFitWidth()), 0);
-        //translateY = Math.max(Math.min(translateY, 497 - imageView.getFitHeight()), 0);
+        if (imageView.getScaleX() == 1 && imageView.getScaleY() == 1) {
+            translateX = Math.max(Math.min(translateX, 603 - imageView.getFitWidth()), 0);
+            translateY = Math.max(Math.min(translateY, 497 - imageView.getFitHeight()), 0);
+        }
 
         setTranslationX(translateX);
         setTranslationY(translateY);

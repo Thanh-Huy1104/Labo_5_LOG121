@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ScrollEvent;
+import javafx.stage.FileChooser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -287,5 +288,10 @@ public class Controller implements Observer {
         ImageModel model = (ImageModel) subject;
         views.get(0).display(model.getCurrentPerspective(1));
         views.get(1).display(model.getCurrentPerspective(2));
+    }
+
+    @FXML
+    void upload_image(ActionEvent event) {
+
     }
 }

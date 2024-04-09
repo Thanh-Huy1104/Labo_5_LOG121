@@ -19,6 +19,7 @@
                     <items>
                         <MenuItem fx:id="menuitem_saveperspective1" mnemonicParsing="false" onAction="#saveModel" text="Save model" />
                         <MenuItem fx:id="menuitem_saveperspective2" mnemonicParsing="false" onAction="#loadModel" text="Load model" />
+                  <MenuItem mnemonicParsing="false" onAction="#upload_image" text="Load Image" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edit">
