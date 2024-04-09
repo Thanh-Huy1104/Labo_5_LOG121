@@ -167,8 +167,10 @@ public class ImageModel implements Subject, Serializable {
         for (Perspective perspective : perspectiveList) {
             if (perspective.getIndex() == 1) {
                 perspective.setImageView(im1);
+                perspective.updateScales();
             } else if (perspective.getIndex() == 2) {
                 perspective.setImageView(im2);
+                perspective.updateScales();
             }
         }
 

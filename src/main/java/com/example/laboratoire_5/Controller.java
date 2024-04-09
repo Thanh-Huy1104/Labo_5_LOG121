@@ -270,6 +270,15 @@ public class Controller implements Observer {
         model.setObservers();
         model.attach(this);
 
+        // The caretakers need to be instanciated with the new model
+        CareTaker careTakerPerspective1 = new CareTaker(model);
+        CareTaker careTakerPerspective2 = new CareTaker(model);
+        careTakers = new HashMap<>();
+        careTakers.put(1, careTakerPerspective1);
+        careTakers.put(2, careTakerPerspective2);
+        perspective_1.setUserData(new double[]{0, 0, perspective_1.getTranslateX(), perspective_1.getTranslateY()});
+        perspective_2.setUserData(new double[]{0, 0, perspective_2.getTranslateX(), perspective_2.getTranslateY()});
+
         model.updateModel(perspective_1, perspective_2);
     }
 
