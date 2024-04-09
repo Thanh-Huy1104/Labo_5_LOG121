@@ -9,7 +9,8 @@ import java.util.List;
 
 public class ImageModel implements Subject, Serializable {
 
-    private Image originalImage;
+    private transient Image originalImage;
+    private String imagePath;
     private List<Perspective> perspectiveList;
     private Perspective perspective1;
     private Perspective perspective2;
@@ -20,6 +21,7 @@ public class ImageModel implements Subject, Serializable {
         this.perspective2 = perspective2;
         this.perspectiveList = new ArrayList<>();
         this.observers = new ArrayList<>();
+        this.imagePath = null;
     }
 
 
@@ -29,10 +31,6 @@ public class ImageModel implements Subject, Serializable {
         perspectiveList.add(perspective1);
         perspectiveList.add(perspective2);
         this.observers = new ArrayList<>(); // Assurez-vous d'initialiser cette liste également
-    }
-
-    public Image getOriginalImage() {
-        return this.originalImage;
     }
 
     public void setOriginalImage(Image originalImage) {
@@ -176,5 +174,24 @@ public class ImageModel implements Subject, Serializable {
 
         notifyObservers();
     }
+    public String getImagePath() {
+        return imagePath;
+    }
 
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+        this.originalImage = new Image(imagePath); // Reload the image from the path
+    }
+
+    public Image getOriginalImage() {
+        if (originalImage == null && imagePath != null) {
+            originalImage = new Image(imagePath);
+        }
+        return originalImage;
+    }
+
+    public void setOriginalImage(Image originalImage, String imagePath) {
+        this.originalImage = originalImage;
+        this.imagePath = imagePath;
+    }
 }

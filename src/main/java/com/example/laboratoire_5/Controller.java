@@ -88,6 +88,7 @@ public class Controller implements Observer {
         addView(perspectiveView1);
         addView(perspectiveView2);
         addView(originalView);
+        model.setImagePath(original_image.getImage().getUrl());
 
         // Initialiser la première perspective à la position et à l'échelle d'origine
         double originalImageWidth = original_image.getImage().getWidth();
@@ -252,10 +253,13 @@ public class Controller implements Observer {
         if (careTaker != null) {
             careTaker.getLastMemento(index);
         }
-    };
+    }
+
+    ;
 
     @FXML
     void saveModel(ActionEvent event) {
+        System.out.println("Saving model23" + model.getImagePath());
         ImageSerializer.serializeImageModel(this.model);
     }
 
@@ -266,6 +270,7 @@ public class Controller implements Observer {
         if (loadedModel != null) {
             this.model = loadedModel;
             restoreModel(model);
+            System.out.println("Loaded model" + model.getImagePath());
         }
     }
 
@@ -282,9 +287,13 @@ public class Controller implements Observer {
         careTakers.put(2, careTakerPerspective2);
         perspective_1.setUserData(new double[]{0, 0, perspective_1.getTranslateX(), perspective_1.getTranslateY()});
         perspective_2.setUserData(new double[]{0, 0, perspective_2.getTranslateX(), perspective_2.getTranslateY()});
-        perspective_1.setImage(model.getOriginalImage());
-        perspective_2.setImage(model.getOriginalImage());
-        original_image.setImage(model.getOriginalImage());
+        System.out.println("Loaded model" + model.getImagePath());
+        Image image = new Image(model.getImagePath());
+
+        perspective_1.setImage(image);
+        perspective_2.setImage(image);
+        original_image.setImage(image);
+        model.setOriginalImage(image, model.getImagePath());
         model.updateModel(perspective_1, perspective_2);
     }
 
@@ -310,7 +319,7 @@ public class Controller implements Observer {
             original_image.setImage(image);
             perspective_1.setImage(image);
             perspective_2.setImage(image);
-            model.setOriginalImage(image);
+            model.setOriginalImage(image, file.toURI().toString());
         }
     }
 }
