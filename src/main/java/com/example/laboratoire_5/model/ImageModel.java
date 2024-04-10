@@ -23,14 +23,10 @@ public class ImageModel implements Subject, Serializable {
     private transient Image originalImage;
     private String imagePath;
     private List<Perspective> perspectiveList;
-    private Perspective perspective1;
-    private Perspective perspective2;
     private transient List<Observer> observers;
 
     // CONSTRUCTOR
-    public ImageModel(Perspective perspective1, Perspective perspective2) {
-        this.perspective1 = perspective1;
-        this.perspective2 = perspective2;
+    public ImageModel() {
         this.perspectiveList = new ArrayList<>();
         this.observers = new ArrayList<>();
         this.imagePath = null;

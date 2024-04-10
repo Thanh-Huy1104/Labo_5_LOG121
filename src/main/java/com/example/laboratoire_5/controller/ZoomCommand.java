@@ -14,6 +14,7 @@ public class ZoomCommand implements Command {
     private ImageModel model;
     private boolean zoomIn; // variable permettant de savoir si l'utilisateur fait un zoomIn ou un zoomOut
 
+    // CONSTRUCTOR
     public ZoomCommand(ImageModel model, boolean zoomIn) {
         this.model = model;
         this.zoomIn = zoomIn;

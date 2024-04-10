@@ -16,6 +16,7 @@ public class TranslationCommand implements Command {
     private double deltaY;
     private double[] data; // référence au data du imageView qui est "set" lors des actions dans le controller
 
+    // CONSTRUCTOR
     public TranslationCommand(ImageModel model, double deltaX, double deltaY, double[] data) {
         this.model = model;
         this.deltaX = deltaX;

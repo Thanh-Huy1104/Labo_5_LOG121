@@ -13,12 +13,12 @@ public class CommandManager {
     private static CommandManager instance = new CommandManager(); // instance statique unique
     private Command command; // commande que l'on veut exécuter
 
+    // CONSTRUCTOR privé, car patron Singleton
+    private CommandManager() {}
+
     public void setCommand(Command command) {
         this.command = command;
     }
-
-    // CONSTRUCTOR privé, car patron Singleton
-    private CommandManager() {}
 
     // Ceci est la seule méthode permettant d'obtenir l'instance unique de CommandManager
     public static CommandManager getInstance() {

@@ -13,6 +13,8 @@ import com.example.laboratoire_5.model.Perspective;
  */
 public class OriginalView implements View {
     private Perspective perspective;
+
+    // CONSTRUCTOR
     public OriginalView(Perspective perspective) {
         this.perspective = perspective;
     }

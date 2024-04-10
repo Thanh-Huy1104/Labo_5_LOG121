@@ -63,7 +63,7 @@ public class Controller implements Observer {
         Perspective originalPerspective = new Perspective(3, original_image);
 
         // Créer le modèle et ajouter les perspectives
-        this.model = new ImageModel(perspective1, perspective2);
+        this.model = new ImageModel();
         model.addPerspective(perspective1);
         model.addPerspective(perspective2);
         model.addPerspective(originalPerspective);
@@ -271,13 +271,13 @@ public class Controller implements Observer {
 
     // Méthode représentant le action listener du bouton REDO de la perspective1
     @FXML
-    void redoPerspective1(ActionEvent event) {
+    void redoPerspective1() {
         redo(1);
     }
 
     // Méthode représentant le action listener du bouton REDO de la perspective1
     @FXML
-    void redoPerspective2(ActionEvent event) {
+    void redoPerspective2() {
         redo(2);
     }
 
